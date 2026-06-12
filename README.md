@@ -1,4 +1,4 @@
-# Dhaka Bus Fare & Routes (DMABFL)
+# Dhaka Bus Fare & Routes
 
 Browse official bus routes across the Dhaka Metro Area, view stops, distances, and get instant fare estimates based on actual kilometer distances.
 
@@ -11,6 +11,16 @@ Browse official bus routes across the Dhaka Metro Area, view stops, distances, a
 - **Customizable Fares**: Adjust minimum fare and fare per kilometer rates according to current BRTA guidelines.
 - **Fast Search**: Quickly search through routes by code, origin, or destination.
 - **Responsive Design**: Modern, fast, and smooth interface for both desktop and mobile devices.
+
+## Screenshots
+
+![Homepage screenshot](public/images/homepage.png)
+
+![Fare Calculator screenshot](public/images/farecalculator.png)
+
+![Fare Chart screenshot](public/images/farechart.png)
+
+![Route detail screenshot](public/images/routepage.png)
 
 ## Tech Stack
 
@@ -34,8 +44,8 @@ Make sure you have Node.js installed (v18 or higher recommended).
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/hussain-ahmed2/dmabfl.git
-   cd dmabfl
+   git clone https://github.com/hussain-ahmed2/dhaka-bus-fare.git
+   cd dhaka-bus-fare
    ```
 
 2. Install the dependencies:
