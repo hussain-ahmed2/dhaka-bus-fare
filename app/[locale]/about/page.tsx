@@ -6,6 +6,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { getAllRoutes, getTotalUniqueStops } from "@/lib/busData";
 
+// Enable static generation with ISR (revalidate every 24 hours)
+export const revalidate = 86400;
+
 export const metadata: Metadata = {
 	title: "About",
 	description: "About the Dhaka Metro Bus Fare application.",

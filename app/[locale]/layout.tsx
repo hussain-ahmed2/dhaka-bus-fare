@@ -9,6 +9,13 @@ import "../globals.css";
 import { cn } from "@/lib/utils";
 import ClarityInit from "@/components/clarity";
 
+// Enable static generation with ISR (revalidate every 24 hours)
+export const revalidate = 86400;
+
+export function generateStaticParams() {
+	return routing.locales.map((locale) => ({ locale }));
+}
+
 const fontSans = Inter({
 	variable: "--font-sans",
 	subsets: ["latin"],

@@ -1,11 +1,18 @@
 import { getAllRoutes, getRouteBySlug } from "@/lib/busData";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
+import { routing } from "@/i18n/routing";
+
+// Enable static generation with ISR (revalidate every 24 hours)
+export const revalidate = 86400;
 
 export function generateStaticParams() {
-	return getAllRoutes().map((route) => ({
-		slug: route.code.en.toLowerCase().replace(/\s/g, "-"),
-	}));
+	return getAllRoutes().flatMap((route) =>
+		routing.locales.map((locale) => ({
+			slug: route.code.en.toLowerCase().replace(/\s/g, "-"),
+			locale,
+		})),
+	);
 }
 
 export async function generateMetadata({
