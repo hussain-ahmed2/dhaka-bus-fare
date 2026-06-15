@@ -53,25 +53,12 @@ export default async function HomePage() {
 				</div>
 			</section>
 
-			{/* Ad Unit after hero */}
-			{/* <div className="container mx-auto px-4 sm:px-6 pt-3">
-        <AdBlock className="bg-muted/30 rounded-lg overflow-hidden min-h-[100px] flex items-center justify-center" />
-      </div> */}
-
 			<Separator />
 
 			{/* ── Route Grid ─────────────────────────────────── */}
 			<section className="container mx-auto px-4 sm:px-6 py-10">
 				<RouteGrid initialRoutes={routes} />
 			</section>
-
-			{/* Multiplex Ad at bottom */}
-			{/* <section className="container mx-auto px-4 sm:px-6 pb-20">
-        <AdBlock
-          variant="multiplex"
-          className="rounded-xl overflow-hidden border border-border/50 bg-muted/5 p-4"
-        />
-      </section> */}
 		</main>
 	);
 }

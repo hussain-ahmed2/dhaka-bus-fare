@@ -1,7 +1,29 @@
 import busData from "@/data/data.json";
+import Fuse from "fuse.js";
 import type { Route, BusData } from "@/types";
 
 const data = busData as BusData;
+
+let fuseInstance: Fuse<Route> | null = null;
+
+function getFuse(): Fuse<Route> {
+	if (!fuseInstance) {
+		fuseInstance = new Fuse(data.routes, {
+			keys: [
+				{ name: "code.en", weight: 2 },
+				{ name: "code.bn", weight: 2 },
+				{ name: "name.en", weight: 1.5 },
+				{ name: "name.bn", weight: 1.5 },
+				{ name: "stops.name.en", weight: 1 },
+				{ name: "stops.name.bn", weight: 1 },
+			],
+			threshold: 0.4,
+			ignoreLocation: true,
+			minMatchCharLength: 1,
+		});
+	}
+	return fuseInstance;
+}
 
 // ─── Queries ────────────────────────────────────────────
 export function getAllRoutes(): Route[] {
@@ -16,39 +38,11 @@ export function routeToSlug(route: Route): string {
 	return route.code.en.toLowerCase().replace(/\s/g, "-");
 }
 
-// Helper to detect if string contains Bengali characters
-function containsBengali(str: string): boolean {
-	return /[\u0980-\u09FF]/.test(str);
-}
-
 export function searchRoutes(query: string): Route[] {
 	const q = query.trim();
 	if (!q) return data.routes;
 
-	const hasBengali = containsBengali(q);
-	const qLower = q.toLowerCase();
-
-	return data.routes.filter((r) => {
-		if (hasBengali) {
-			// Search in both Bengali and English
-			return (
-				r.code.bn.toLowerCase().includes(qLower) ||
-				r.code.en.toLowerCase().includes(qLower) ||
-				r.name.bn.toLowerCase().includes(qLower) ||
-				r.name.en.toLowerCase().includes(qLower) ||
-				r.stops.some(
-					(s) => s.name.bn.toLowerCase().includes(qLower) || s.name.en.toLowerCase().includes(qLower),
-				)
-			);
-		} else {
-			// Search only in English
-			return (
-				r.code.en.toLowerCase().includes(qLower) ||
-				r.name.en.toLowerCase().includes(qLower) ||
-				r.stops.some((s) => s.name.en.toLowerCase().includes(qLower))
-			);
-		}
-	});
+	return getFuse().search(q).map((r) => r.item);
 }
 
 // ─── Fare Logic ─────────────────────────────────────────

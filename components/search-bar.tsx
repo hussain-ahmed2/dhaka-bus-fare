@@ -14,9 +14,12 @@ export default function SearchBar({ onSearch, placeholder }: SearchBarProps) {
   const [value, setValue] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    onSearch(value);
-  }, [value, onSearch]);
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			onSearch(value);
+		}, 200);
+		return () => clearTimeout(timer);
+	}, [value, onSearch]);
 
   const clear = () => {
     setValue("");
