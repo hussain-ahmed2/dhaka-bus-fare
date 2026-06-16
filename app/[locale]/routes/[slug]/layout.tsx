@@ -22,12 +22,16 @@ export async function generateMetadata({
 }): Promise<Metadata> {
 	const { slug, locale } = await params;
 	const route = getRouteBySlug(slug);
+	const t = await getTranslations({ locale, namespace: "Route" });
 	if (!route) return { title: "Route Not Found" };
 	const routeName = locale === "bn" ? route.name.bn : route.name.en;
 	const routeCode = locale === "bn" ? route.code.bn : route.code.en;
+	const lastStop = route.stops.at(-1);
+	const dist = lastStop?.distance ?? 0;
 	return {
+		metadataBase: new URL("https://dhakabusfare.vercel.app"),
 		title: `${routeCode} – ${routeName}`,
-		description: `${route.stops.length} stops · ${route.stops.at(-1)?.distance ?? 0} km · Bus route in Dhaka Metro Area.`,
+		description: `${route.stops.length} ${t("stops")} · ${dist} ${t("km")} · ${t("metaSuffix")}`,
 	};
 }
 

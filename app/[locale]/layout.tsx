@@ -31,8 +31,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 	const t = await getTranslations({ locale, namespace: "Metadata" });
 
 	return {
+		metadataBase: new URL("https://dhakabusfare.vercel.app"),
 		title: t("title"),
 		description: t("description"),
+		keywords: t("keywords"),
 		icons: {
 			icon: [
 				{ url: "/logo.png" },
@@ -40,6 +42,23 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 				{ url: "/logo.png", sizes: "512x512", type: "image/png" },
 			],
 			apple: { url: "/logo.png" },
+		},
+		openGraph: {
+			title: t("title"),
+			description: t("description"),
+			url: `https://dhakabusfare.vercel.app/${locale}`,
+			siteName: "Dhaka Bus",
+			locale: locale === "bn" ? "bn_BD" : "en_US",
+			type: "website",
+			images: [{ url: "/og-image.png", width: 1200, height: 630 }],
+		},
+		twitter: {
+			card: "summary_large_image",
+			title: t("title"),
+			description: t("description"),
+		},
+		alternates: {
+			canonical: `https://dhakabusfare.vercel.app/${locale}`,
 		},
 	};
 }
@@ -59,6 +78,23 @@ export default async function RootLayout({
 
 	setRequestLocale(locale);
 	const messages = await getMessages();
+	const md = await getTranslations({ locale, namespace: "Metadata" });
+
+	const jsonLd = {
+		"@context": "https://schema.org",
+		"@type": "WebApplication",
+		name: "Dhaka Bus Fare & Routes",
+		alternateName: "ঢাকা বাস ভাড়া ও রুট",
+		description: md("description"),
+		applicationCategory: "TravelApplication",
+		operatingSystem: "All",
+		url: `https://dhakabusfare.vercel.app/${locale}`,
+		offers: {
+			"@type": "Offer",
+			price: "0",
+			priceCurrency: "BDT",
+		},
+	};
 
 	return (
 		<html lang={locale} suppressHydrationWarning>
@@ -68,6 +104,10 @@ export default async function RootLayout({
 				<meta name="apple-mobile-web-app-title" content="Dhaka Bus" />
 				<meta name="mobile-web-app-capable" content="yes" />
 				<meta name="theme-color" content="#0f172a" />
+				<script
+					type="application/ld+json"
+					dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+				/>
 			</head>
 			<body
 				className={cn(

@@ -1,21 +1,27 @@
-import type { Metadata } from "next";
 import { Link } from "@/i18n/routing";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getLocale } from "next-intl/server";
 import { Bus, MapPin, Calculator, Github, Map, Search, Smartphone, Zap } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { getAllRoutes, getTotalUniqueStops } from "@/lib/busData";
+import { formatNumber } from "@/lib/utils";
 
 // Enable static generation with ISR (revalidate every 24 hours)
 export const revalidate = 86400;
 
-export const metadata: Metadata = {
-	title: "About",
-	description: "About the Dhaka Metro Bus Fare application.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+	const { locale } = await params;
+	const t = await getTranslations({ locale, namespace: "About" });
+	return {
+		metadataBase: new URL("https://dhakabusfare.vercel.app"),
+		title: t("metaTitle"),
+		description: t("metaDescription"),
+	};
+}
 
 export default async function AboutPage() {
 	const t = await getTranslations("About");
+	const locale = await getLocale();
 	const totalRoutes = getAllRoutes().length;
 	const totalStops = getTotalUniqueStops();
 
@@ -37,8 +43,8 @@ export default async function AboutPage() {
 		},
 		{
 			icon: <Smartphone className="h-6 w-6 text-primary" />,
-			title: "Mobile Friendly",
-			description: "Fully responsive design that works great on phones, tablets, and desktops.",
+			title: t("f4Title"),
+			description: t("f4Desc"),
 		},
 	];
 
@@ -66,23 +72,23 @@ export default async function AboutPage() {
 					{[
 						{
 							icon: <Bus className="h-5 w-5 text-primary" />,
-							value: totalRoutes,
-							label: "Routes",
+							value: formatNumber(totalRoutes, locale),
+							label: t("statRoutes"),
 						},
 						{
 							icon: <MapPin className="h-5 w-5 text-primary" />,
-							value: totalStops,
-							label: "Unique Stops",
+							value: formatNumber(totalStops, locale),
+							label: t("statStops"),
 						},
 						{
 							icon: <Calculator className="h-5 w-5 text-primary" />,
 							value: "৳10+",
-							label: "Min Fare",
+							label: t("statMinFare"),
 						},
 						{
 							icon: <Zap className="h-5 w-5 text-primary" />,
-							value: "Free",
-							label: "Always",
+							value: t("statFree"),
+							label: t("statAlways"),
 						},
 					].map((s) => (
 						<Card key={s.label}>
@@ -140,20 +146,20 @@ export default async function AboutPage() {
 							rel="noopener noreferrer"
 						>
 							<Github className="h-4 w-4 mr-2" />
-							View Data Source
+							{t("viewDataBtn")}
 						</a>
 					</Button>
 				</div>
 
 				{/* CTA */}
 				<div className="text-center space-y-4">
-					<p className="text-muted-foreground text-sm">Ready to plan your journey?</p>
+					<p className="text-muted-foreground text-sm">{t("ctaText")}</p>
 					<div className="flex items-center justify-center gap-3 flex-wrap">
 						<Button asChild>
-							<Link href="/">Browse Routes</Link>
+							<Link href="/">{t("ctaRoutes")}</Link>
 						</Button>
 						<Button variant="outline" asChild>
-							<Link href="/fare-calculator">Calculate Fare</Link>
+							<Link href="/fare-calculator">{t("ctaFare")}</Link>
 						</Button>
 					</div>
 				</div>
