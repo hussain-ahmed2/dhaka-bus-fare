@@ -1,7 +1,8 @@
 {
   "Metadata": {
     "title": "Dhaka Bus - Fare & Routes",
-    "description": "Find bus routes and calculate fares in Dhaka Metro Area."
+    "description": "Find bus routes and calculate fares in Dhaka Metro Area.",
+    "keywords": "Dhaka bus routes, bus fare Bangladesh, BRTA fare rate, Dhaka Metro bus, bus stop finder, public transport Dhaka, bus route map, Dhaka city bus, bus ticket price Bangladesh"
   },
   "Home": {
     "title": "Find Your Bus Route &",
@@ -31,6 +32,8 @@
     "navMobileChart": "Chart"
   },
   "Calculator": {
+    "metaTitle": "Fare Calculator - Dhaka Bus Fare & Routes",
+    "metaDescription": "Calculate bus fares between any two stops in Dhaka Metro Area. Get instant fare estimates based on BRTA rates and exact distances.",
     "badge": "Fare Calculator",
     "title": "Calculate Your Bus Fare",
     "subtitle": "Find direct routes between any two stops and get instant fare estimates.",
@@ -78,6 +81,8 @@
     "save": "Save Settings"
   },
   "Chart": {
+    "metaTitle": "Fare Chart - Dhaka Bus Fare & Routes",
+    "metaDescription": "View the complete fare matrix for all stops on any Dhaka bus route. Compare fares between every combination of stops.",
     "badge": "Fare Chart",
     "title": "Full Route Fare Chart",
     "subtitle": "View the complete fare matrix for all stops on a selected route.",
@@ -88,18 +93,31 @@
     "km": "KM"
   },
   "About": {
+    "metaTitle": "About - Dhaka Bus Fare & Routes",
+    "metaDescription": "Learn about Dhaka Bus Fare & Routes, an open-source project making public transit information accessible in the Dhaka Metro Area.",
     "title": "About This Project",
     "subtitle": "Dhaka Bus Fare & Routes is an open-source initiative to make public transit information accessible and structured.",
     "featuresTitle": "Core Features",
     "sourceTitle": "Data Source",
     "sourceDesc": "The route and distance data is maintained collaboratively in a public GitHub repository. You are welcome to contribute updates or corrections.",
     "viewGithub": "View Data Repository",
+    "viewDataBtn": "View Data Source",
+    "ctaText": "Ready to plan your journey?",
+    "ctaRoutes": "Browse Routes",
+    "ctaFare": "Calculate Fare",
     "f1Title": "Comprehensive Routes",
     "f1Desc": "Covering hundreds of official and unofficial bus routes operating in Dhaka.",
     "f2Title": "Accurate Fares",
     "f2Desc": "Fare estimation based on exact km distance between stops according to official BRTA rates.",
     "f3Title": "Open Source",
-    "f3Desc": "Data and code are open for the community to improve and build upon."
+    "f3Desc": "Data and code are open for the community to improve and build upon.",
+    "f4Title": "Mobile Friendly",
+    "f4Desc": "Fully responsive design that works great on phones, tablets, and desktops.",
+    "statRoutes": "Routes",
+    "statStops": "Unique Stops",
+    "statMinFare": "Min Fare",
+    "statFree": "Free",
+    "statAlways": "Always"
   },
   "Route": {
     "back": "Back to Routes",
@@ -112,7 +130,8 @@
     "upTo": "up to ৳{maxFare}",
     "searchStops": "Search stops...",
     "timelineTab": "Timeline",
-    "chartTab": "Fare Chart"
+    "chartTab": "Fare Chart",
+    "metaSuffix": "Bus route in Dhaka Metro Area."
   },
   "Footer": {
     "brandTitle": "Dhaka Bus",
