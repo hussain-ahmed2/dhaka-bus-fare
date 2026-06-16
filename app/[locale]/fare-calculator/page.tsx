@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Ticket, ArrowUpDown, ChevronRight, Calculator } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -40,6 +40,24 @@ export default function FareCalculatorPage() {
 	const locale = useLocale();
 
 	const [hasCalculated, setHasCalculated] = useState(false);
+	const [mounted, setMounted] = useState(false);
+
+	useEffect(() => {
+		setMounted(true);
+
+		const params = new URLSearchParams(window.location.search);
+		const route = params.get("route");
+		const from = params.get("from");
+		const to = params.get("to");
+
+		if (route) setSelectedRouteSlug(route);
+		if (from) setFromStopName(from);
+		if (to) setToStopName(to);
+
+		if (route || from || to) {
+			setHasCalculated(true);
+		}
+	}, []);
 
 	// Available stops based on route selection
 	const availableStops = useMemo(() => {
@@ -107,6 +125,8 @@ export default function FareCalculatorPage() {
 
 		return matches.sort((a, b) => a.fare - b.fare);
 	}, [hasCalculated, fromStopName, toStopName, selectedRouteSlug, settings]);
+
+	if (!mounted) return null;
 
 	return (
 		<main className="min-h-screen">
