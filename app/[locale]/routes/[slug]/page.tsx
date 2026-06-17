@@ -1,18 +1,15 @@
 "use client";
 
-import { getAllRoutes, getRouteBySlug } from "@/lib/busData";
+import { getRouteBySlug } from "@/lib/busData";
 import { notFound } from "next/navigation";
 import RouteHero from "@/components/route-hero";
 import StopTimeline from "@/components/stop-timeline";
 import FareCalculator from "@/components/fare-calculator";
 import { useState, use, useMemo } from "react";
-import { useTranslations, useLocale } from "next-intl";
 
 export default function RouteDetailPage({ params }: { params: Promise<{ slug: string; locale: string }> }) {
 	const { slug } = use(params);
 	const route = useMemo(() => getRouteBySlug(slug), [slug]);
-	const t = useTranslations("Route");
-	const locale = useLocale();
 
 	const [fromIdx, setFromIdx] = useState<number | null>(null);
 	const [toIdx, setToIdx] = useState<number | null>(null);
