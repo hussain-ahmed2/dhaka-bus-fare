@@ -1,33 +1,81 @@
 import { getAllRoutes, routeToSlug } from "@/lib/busData";
-import { routing } from "@/i18n/routing";
 import type { MetadataRoute } from "next";
 
-const baseUrl = "https://dhakabusfare.vercel.app";
+const BASE_URL = "https://dhakabusfare.vercel.app";
 
-const staticPages = ["", "/about", "/fare-calculator", "/fare-chart"];
+// Use a pinned date — avoids unnecessary re-crawl on every deploy.
+// Update this when content actually changes.
+const STATIC_LAST_MODIFIED = new Date("2026-06-21");
+const ROUTE_LAST_MODIFIED = new Date("2026-06-01");
+
+type SitemapEntry = MetadataRoute.Sitemap[number];
+
+function staticEntry(
+  path: string,
+  opts: Partial<SitemapEntry> = {},
+): SitemapEntry {
+  const enUrl = `${BASE_URL}/en${path}`;
+  const bnUrl = `${BASE_URL}/bn${path}`;
+
+  return {
+    url: enUrl,
+    lastModified: STATIC_LAST_MODIFIED,
+    changeFrequency: "weekly",
+    priority: 0.8,
+    alternates: {
+      languages: {
+        en: enUrl,
+        bn: bnUrl,
+        "x-default": enUrl,
+      },
+    },
+    ...opts,
+  };
+}
 
 export default function sitemap(): MetadataRoute.Sitemap {
-	const entries: MetadataRoute.Sitemap = [];
+  const entries: MetadataRoute.Sitemap = [];
 
-	for (const locale of routing.locales) {
-		for (const page of staticPages) {
-			entries.push({
-				url: `${baseUrl}/${locale}${page}`,
-				lastModified: new Date(),
-				changeFrequency: "weekly",
-				priority: page === "" ? 1 : 0.8,
-			});
-		}
+  // ─── Static pages ────────────────────────────────────────
+  entries.push(
+    staticEntry("", {
+      changeFrequency: "daily",
+      priority: 1.0,
+    }),
+    staticEntry("/fare-calculator", {
+      changeFrequency: "weekly",
+      priority: 0.9,
+    }),
+    staticEntry("/fare-chart", {
+      changeFrequency: "weekly",
+      priority: 0.9,
+    }),
+    staticEntry("/about", {
+      changeFrequency: "monthly",
+      priority: 0.5,
+    }),
+  );
 
-		for (const route of getAllRoutes()) {
-			entries.push({
-				url: `${baseUrl}/${locale}/routes/${routeToSlug(route)}`,
-				lastModified: new Date(),
-				changeFrequency: "monthly",
-				priority: 0.6,
-			});
-		}
-	}
+  // ─── Route pages (one entry per route, with both locale alternates) ──
+  for (const route of getAllRoutes()) {
+    const slug = routeToSlug(route);
+    const enUrl = `${BASE_URL}/en/routes/${slug}`;
+    const bnUrl = `${BASE_URL}/bn/routes/${slug}`;
 
-	return entries;
+    entries.push({
+      url: enUrl,
+      lastModified: ROUTE_LAST_MODIFIED,
+      changeFrequency: "monthly",
+      priority: 0.7,
+      alternates: {
+        languages: {
+          en: enUrl,
+          bn: bnUrl,
+          "x-default": enUrl,
+        },
+      },
+    });
+  }
+
+  return entries;
 }

@@ -42,12 +42,14 @@ export function searchRoutes(query: string): Route[] {
 	const q = query.trim();
 	if (!q) return data.routes;
 
-	return getFuse().search(q).map((r) => r.item);
+	return getFuse()
+		.search(q)
+		.map((r) => r.item);
 }
 
 // ─── Fare Logic ─────────────────────────────────────────
-const FARE_PER_KM = 2.53; // BDT per km
-const MIN_FARE = 10; // BDT
+export const FARE_PER_KM = 2.53; // BDT per km
+export const MIN_FARE = 10; // BDT
 
 export function calculateFare(distanceKm: number): number {
 	const raw = distanceKm * FARE_PER_KM;

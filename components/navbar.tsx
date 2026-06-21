@@ -40,7 +40,8 @@ export default function Navbar() {
   }, []);
 
   const changeLocale = (newLocale: "en" | "bn") => {
-    router.replace({ pathname }, { locale: newLocale });
+    const searchParams = typeof window !== "undefined" ? window.location.search : "";
+    router.replace(`${pathname}${searchParams}`, { locale: newLocale });
   };
 
   const navLinks = [
