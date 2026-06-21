@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button";
 import { useTranslations, useLocale } from "next-intl";
 import { getAllRoutes, routeToSlug } from "@/lib/busData";
 import { Link } from "@/i18n/routing";
+import { StopCombobox } from "@/components/stop-combobox";
 
 const routes = getAllRoutes();
 
@@ -57,7 +58,7 @@ export default function HeroCalculatorCard() {
   params.set("route", selectedSlug);
   if (fromStop) params.set("from", fromStop);
   if (toStop) params.set("to", toStop);
-  const calcHref = `/fare-calculator?${params.toString()}`;
+  const calcHref = `/fare-calculator?${params.toString()}#results`;
 
   const canCalculate = fromStop && toStop && fromStop !== toStop;
 
@@ -71,6 +72,7 @@ export default function HeroCalculatorCard() {
         <CardDescription>{t("journeySelect")}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-5">
+        {/* Route selector */}
         <div className="space-y-1.5">
           <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block">
             {t("routeOp")}
@@ -88,9 +90,7 @@ export default function HeroCalculatorCard() {
             </SelectTrigger>
             <SelectContent className="max-h-72">
               <SelectItem value="all">
-                <span className="font-semibold text-primary">
-                  {t("allRoutes")}
-                </span>
+                <span className="font-semibold text-primary">{t("allRoutes")}</span>
               </SelectItem>
               {routes.map((r) => (
                 <SelectItem key={r.code.en} value={routeToSlug(r)}>
@@ -103,29 +103,18 @@ export default function HeroCalculatorCard() {
           </Select>
         </div>
 
+        {/* Stop pickers */}
         <div className="space-y-4">
-          <div className="space-y-1.5 border border-border p-3 rounded-xl bg-muted/20">
-            <label className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider block">
-              {t("selectFrom")}
-            </label>
-            <Select
-              value={fromStop || ""}
-              onValueChange={(v) => setFromStop(v)}
-            >
-              <SelectTrigger className="w-full bg-background">
-                <SelectValue placeholder={t("boardingStop")} />
-              </SelectTrigger>
-              <SelectContent className="max-h-64">
-                {availableStops.map((stop) => (
-                  <SelectItem key={stop} value={stop}>
-                    {locale === "en"
-                      ? stop
-                      : stopTranslations[stop] || stop}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+          <StopCombobox
+            label={t("selectFrom")}
+            value={fromStop}
+            onValueChange={setFromStop}
+            placeholder={t("boardingStop")}
+            availableStops={availableStops}
+            stopTranslations={stopTranslations}
+            locale={locale}
+            noStopsText={t("noStopsFound")}
+          />
 
           <div className="flex justify-center relative z-10">
             <Button
@@ -138,28 +127,16 @@ export default function HeroCalculatorCard() {
             </Button>
           </div>
 
-          <div className="space-y-1.5 border border-border p-3 rounded-xl bg-muted/20">
-            <label className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider block">
-              {t("selectTo")}
-            </label>
-            <Select
-              value={toStop || ""}
-              onValueChange={(v) => setToStop(v)}
-            >
-              <SelectTrigger className="w-full bg-background">
-                <SelectValue placeholder={t("destinationStop")} />
-              </SelectTrigger>
-              <SelectContent className="max-h-64">
-                {availableStops.map((stop) => (
-                  <SelectItem key={stop} value={stop}>
-                    {locale === "en"
-                      ? stop
-                      : stopTranslations[stop] || stop}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+          <StopCombobox
+            label={t("selectTo")}
+            value={toStop}
+            onValueChange={setToStop}
+            placeholder={t("destinationStop")}
+            availableStops={availableStops}
+            stopTranslations={stopTranslations}
+            locale={locale}
+            noStopsText={t("noStopsFound")}
+          />
         </div>
 
         <div className="pt-2">

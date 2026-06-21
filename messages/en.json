@@ -51,7 +51,8 @@
     "resultsEmpty": "Enter your journey details to see results.",
     "noDirectRoutes": "No direct routes found between these two stops.",
     "tryDifferent": "Try selecting \"All Routes\" or different stops.",
-    "resultsWillAppear": "Results will appear here once you calculate your fare."
+    "resultsWillAppear": "Results will appear here once you calculate your fare.",
+    "noStopsFound": "No stops found"
   },
   "RouteCalc": {
     "title": "Fare Calculator",
