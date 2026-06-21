@@ -11,7 +11,12 @@ export function useFareSettings() {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    setLoaded(true);
+    const frameId = requestAnimationFrame(() => {
+      setLoaded(true);
+    });
+    return () => {
+      cancelAnimationFrame(frameId);
+    };
   }, []);
 
   const updateSettings = useCallback(

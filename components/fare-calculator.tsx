@@ -191,7 +191,7 @@ export default function FareCalculator({
                       {(() => {
                         const start = Math.min(fromIdx!, toIdx!);
                         const end = Math.max(fromIdx!, toIdx!);
-                        let stops = route.stops.slice(start, end + 1);
+                        const stops = route.stops.slice(start, end + 1);
                         if (fromIdx! > toIdx!) stops.reverse();
 
                         return stops.map((stop, i, arr) => (

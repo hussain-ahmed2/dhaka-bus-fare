@@ -52,7 +52,15 @@
     "noDirectRoutes": "No direct routes found between these two stops.",
     "tryDifferent": "Try selecting \"All Routes\" or different stops.",
     "resultsWillAppear": "Results will appear here once you calculate your fare.",
-    "noStopsFound": "No stops found"
+    "noStopsFound": "No stops found",
+    "connectingRoutesTitle": "Connecting Routes (1 Transfer)",
+    "transferAt": "Transfer at {stop}",
+    "totalFare": "Total Fare",
+    "totalDistance": "Total Distance",
+    "leg1": "Leg 1: {route} ({from} ➔ {to})",
+    "leg2": "Leg 2: {route} ({from} ➔ {to})",
+    "noRoutesFound": "No direct or connecting routes found between these stops.",
+    "connectingResultsFound": "Found {count} connecting routes"
   },
   "RouteCalc": {
     "title": "Fare Calculator",

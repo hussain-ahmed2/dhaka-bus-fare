@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { Route } from "@/types";
+import { FARE_PER_KM, MIN_FARE } from "@/lib/busData";
 
 export interface FareSettings {
 	minFare: number;
@@ -25,7 +25,7 @@ interface AppState {
 export const useStore = create<AppState>()(
 	persist(
 		(set) => ({
-			settings: { minFare: 10, farePerKm: 2.45 },
+			settings: { minFare: MIN_FARE, farePerKm: FARE_PER_KM },
 			setSettings: (settings) => set({ settings }),
 
 			selectedRouteSlug: "all",
