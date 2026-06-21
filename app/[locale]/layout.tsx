@@ -8,6 +8,7 @@ import { routing } from "@/i18n/routing";
 import "../globals.css";
 import { cn } from "@/lib/utils";
 import ClarityInit from "@/components/clarity";
+import ProgressBarProvider from "@/components/progress-bar-provider";
 
 // Enable static generation with ISR (revalidate every 24 hours)
 export const revalidate = 86400;
@@ -116,11 +117,13 @@ export default async function RootLayout({
 				)}
 			>
 				<ClarityInit />
-				<NextIntlClientProvider messages={messages}>
-					<Navbar />
-					{children}
-					<Footer />
-				</NextIntlClientProvider>
+				<ProgressBarProvider>
+					<NextIntlClientProvider messages={messages}>
+						<Navbar />
+						{children}
+						<Footer />
+					</NextIntlClientProvider>
+				</ProgressBarProvider>
 			</body>
 		</html>
 	);
