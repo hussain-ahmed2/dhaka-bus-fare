@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import Fuse from "fuse.js";
 import {
   Combobox,
   ComboboxInput,
@@ -8,6 +9,7 @@ import {
   ComboboxList,
   ComboboxItem,
 } from "@/components/ui/combobox";
+import { Label } from "@/components/ui/label";
 
 interface StopComboboxProps {
   label: string;
@@ -35,21 +37,32 @@ export function StopCombobox({
   const getLabel = (stop: string) =>
     locale === "en" ? stop : (stopTranslations[stop] || stop);
 
+  const fuse = useMemo(() => {
+    const items = availableStops.map((stop) => ({
+      en: stop,
+      bn: stopTranslations[stop] || "",
+    }));
+    return new Fuse(items, {
+      keys: [
+        { name: "en", weight: 1.5 },
+        { name: "bn", weight: 1.5 },
+      ],
+      threshold: 0.4,
+      minMatchCharLength: 1,
+    });
+  }, [availableStops, stopTranslations]);
+
   const filtered = useMemo(() => {
-    const q = search.trim().toLowerCase();
+    const q = search.trim();
     if (!q) return availableStops;
-    return availableStops.filter(
-      (s) =>
-        s.toLowerCase().includes(q) ||
-        (stopTranslations[s] || "").toLowerCase().includes(q),
-    );
-  }, [search, availableStops, stopTranslations]);
+    return fuse.search(q).map((r) => r.item.en);
+  }, [search, availableStops, fuse]);
 
   return (
     <div className="space-y-1.5 border border-border p-3 rounded-xl bg-muted/20">
-      <label className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider block">
+      <Label className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider block">
         {label}
-      </label>
+      </Label>
       <Combobox
         value={value}
         onValueChange={(v) => onValueChange(v as string | null)}
