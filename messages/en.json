@@ -32,8 +32,9 @@
     "navMobileChart": "Chart"
   },
   "Calculator": {
-    "metaTitle": "Fare Calculator - Dhaka Bus Fare & Routes",
-    "metaDescription": "Calculate bus fares between any two stops in Dhaka Metro Area. Get instant fare estimates based on BRTA rates and exact distances.",
+    "metaTitle": "Bus Fare Calculator (Direct & Connecting Routes) - Dhaka Bus",
+    "metaDescription": "Calculate bus fares between any two stops in Dhaka. Supports both direct routes and 1-transfer connecting route combinations to find the cheapest transit options.",
+    "metaKeywords": "Dhaka bus fare calculator, bus transfer Dhaka, connecting bus routes, Dhaka bus route finder, bus fare estimation Bangladesh, Dhaka public transit map",
     "badge": "Fare Calculator",
     "title": "Calculate Your Bus Fare",
     "subtitle": "Find direct routes between any two stops and get instant fare estimates.",
@@ -92,6 +93,7 @@
   "Chart": {
     "metaTitle": "Fare Chart - Dhaka Bus Fare & Routes",
     "metaDescription": "View the complete fare matrix for all stops on any Dhaka bus route. Compare fares between every combination of stops.",
+    "metaKeywords": "Dhaka bus fare chart, bus route matrix, stop to stop fare Dhaka, Dhaka bus routes, BRTA fare table, bus stop distance Bangladesh",
     "badge": "Fare Chart",
     "title": "Full Route Fare Chart",
     "subtitle": "View the complete fare matrix for all stops on a selected route.",
