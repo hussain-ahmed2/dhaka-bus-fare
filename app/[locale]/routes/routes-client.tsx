@@ -1,14 +1,14 @@
-"use client";
-
-import { useMemo } from "react";
+import RoutesClientContent from "./routes-client-content";
+import { Suspense } from "react";
 import { getAllRoutes } from "@/lib/busData";
-import RouteGrid from "@/components/route-grid";
 import { Map } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { getLocale, getTranslations } from "next-intl/server";
 
-export default function RoutesClient() {
-	const t = useTranslations("Navbar");
-	const routes = useMemo(() => getAllRoutes(), []);
+const routes = getAllRoutes();
+
+export default async function RoutesClient() {
+	const locale = await getLocale();
+	const t = await getTranslations({ locale, namespace: "Navbar" });
 
 	return (
 		<main className="min-h-screen pb-12">
@@ -22,18 +22,20 @@ export default function RoutesClient() {
 						<Map className="h-3.5 w-3.5" />
 						{t("navRoutes")}
 					</div>
-					<h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
-						{t("navRoutes")}
-					</h1>
+					<h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">{t("navRoutes")}</h1>
 					<p className="text-sm sm:text-base text-primary-foreground/80 max-w-md mx-auto">
-						{t("brandSubtitle") === "Fare & Routes" ? "Browse the complete city bus route network" : "শহরের সম্পূর্ণ বাস রুট নেটওয়ার্ক ব্রাউজ করুন"}
+						{t("brandSubtitle") === "Fare & Routes"
+							? "Browse the complete city bus route network"
+							: "শহরের সম্পূর্ণ বাস রুট নেটওয়ার্ক ব্রাউজ করুন"}
 					</p>
 				</div>
 			</section>
 
 			{/* Routes grid container */}
 			<section className="container mx-auto px-4 sm:px-6 py-10">
-				<RouteGrid initialRoutes={routes} isHomePage={false} />
+				<Suspense fallback={null}>
+					<RoutesClientContent initialRoutes={routes} />
+				</Suspense>
 			</section>
 		</main>
 	);

@@ -1,5 +1,5 @@
 import { getAllRoutes, getTotalUniqueStops } from "@/lib/busData";
-import RouteGrid from "@/components/route-grid";
+import HomeRouteGrid from "@/components/home-route-grid";
 import HeroCalculatorCard from "@/components/hero-calculator-card";
 import RecentlyViewedSection from "@/components/recently-viewed-wrapper";
 import { Separator } from "@/components/ui/separator";
@@ -68,7 +68,7 @@ export default async function HomePage() {
 
 			{/* ── Route Grid (Popular Routes) ─────────────────── */}
 			<section className="container mx-auto px-4 sm:px-6 py-10">
-				<RouteGrid initialRoutes={routes} isHomePage={true} />
+				<HomeRouteGrid />
 			</section>
 		</main>
 	);

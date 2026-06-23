@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
+import { getAllBuses, getAllBusStops } from "@/lib/busData";
 import BusesClient from "./buses-client";
 
 interface PageProps {
@@ -32,6 +33,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 	};
 }
 
+import { Suspense } from "react";
+
 export default function Page() {
-	return <BusesClient />;
+	const buses = getAllBuses();
+	const stops = getAllBusStops();
+
+	return (
+		<Suspense fallback={null}>
+			<BusesClient initialBuses={buses} initialStops={stops} />
+		</Suspense>
+	);
 }
