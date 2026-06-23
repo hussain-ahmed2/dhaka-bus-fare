@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { useTranslations } from "next-intl";
 import type { BusOperator } from "@/types";
 import Image from "next/image";
+import { formatTime } from "@/lib/utils";
 
 interface RouteOperatorsProps {
 	operators: BusOperator[];
@@ -103,14 +104,14 @@ function OperatorCard({ operator, locale }: { operator: BusOperator; locale: str
 
 				<div className="flex flex-wrap gap-1">
 					<Badge variant="secondary" className="text-[10px] py-0 px-2 font-bold bg-primary/10 text-primary border-transparent">
-						{operator.service_type || "Standard Service"}
+						{operator.service_type || (locale === "en" ? "Standard Service" : "সাধারণ সার্ভিস")}
 					</Badge>
 				</div>
 
 				<div className="flex items-center gap-1.5 text-xs text-muted-foreground">
 					<Clock className="h-3.5 w-3.5 shrink-0 text-muted-foreground/75" />
 					<span className="truncate">
-						{operator.time.start} - {operator.time.close}
+						{formatTime(operator.time.start, locale)} - {formatTime(operator.time.close, locale)}
 					</span>
 				</div>
 			</div>

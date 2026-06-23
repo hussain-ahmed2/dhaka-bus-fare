@@ -8,7 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { useTranslations } from "next-intl";
 import { estimateDistanceBetweenStops, stopTranslations } from "@/lib/busData";
 import { StopCombobox } from "@/components/stop-combobox";
-import { formatNumber } from "@/lib/utils";
+import { formatNumber, formatTime } from "@/lib/utils";
 import { useStore } from "@/hooks/store";
 import type { BusOperator } from "@/types";
 import Image from "next/image";
@@ -112,14 +112,14 @@ export function BusOperatorProfileCard({
 							variant="secondary"
 							className="text-[10px] font-bold bg-primary/10 text-primary border-transparent"
 						>
-							{bus.service_type || "Standard"}
+							{bus.service_type || (locale === "en" ? "Standard" : "সাধারণ")}
 						</Badge>
 					</div>
 
 					<div className="flex items-center gap-1.5 text-xs text-muted-foreground">
 						<Clock className="h-3.5 w-3.5 shrink-0" />
 						<span className="font-medium">
-							{t("operatingHours")}: {bus.time.start} - {bus.time.close}
+							{t("operatingHours")}: {formatTime(bus.time.start, locale)} - {formatTime(bus.time.close, locale)}
 						</span>
 					</div>
 				</div>
@@ -228,7 +228,7 @@ export function BusOperatorProfileCard({
 												{t("distance")}
 											</span>
 											<span className="text-xs font-semibold text-muted-foreground">
-												{formatNumber(calculatedDistance.toFixed(1), locale)} km
+												{formatNumber(calculatedDistance.toFixed(1), locale)} {locale === "en" ? "km" : "কিমি"}
 											</span>
 										</div>
 									</div>

@@ -24,7 +24,7 @@ export default async function RoutesClient() {
 					</div>
 					<h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">{t("navRoutes")}</h1>
 					<p className="text-sm sm:text-base text-primary-foreground/80 max-w-md mx-auto">
-						{t("brandSubtitle") === "Fare & Routes"
+						{locale === "en"
 							? "Browse the complete city bus route network"
 							: "শহরের সম্পূর্ণ বাস রুট নেটওয়ার্ক ব্রাউজ করুন"}
 					</p>

@@ -22,3 +22,28 @@ export function debounce<A extends unknown[], R>(fn: (...args: A) => R, wait: nu
 		timeout = setTimeout(() => fn(...args), wait);
 	};
 }
+
+export function formatTime(timeStr: string, locale: string = "en"): string {
+	if (!timeStr) return "";
+	if (locale !== "bn") return timeStr;
+
+	const digitMap: Record<string, string> = {
+		"0": "০",
+		"1": "১",
+		"2": "২",
+		"3": "৩",
+		"4": "৪",
+		"5": "৫",
+		"6": "৬",
+		"7": "৭",
+		"8": "৮",
+		"9": "৯",
+	};
+
+	let result = timeStr;
+	result = result.replace(/[0-9]/g, (match) => digitMap[match] || match);
+	result = result.replace(/AM/gi, "এএম");
+	result = result.replace(/PM/gi, "পিএম");
+
+	return result;
+}
