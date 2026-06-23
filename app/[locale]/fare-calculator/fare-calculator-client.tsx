@@ -280,6 +280,8 @@ export default function FareCalculatorClient() {
 										path={data.path}
 										locale={locale}
 										index={idx}
+										fromStopName={fromStopName || ""}
+										toStopName={toStopName || ""}
 									/>
 								))}
 

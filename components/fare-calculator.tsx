@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowUpDown, Ticket, ArrowRight, Calculator } from "lucide-react";
 import {
@@ -10,20 +10,14 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { getFareBetweenStops, calculateFare } from "@/lib/busData";
+import { getFareBetweenStops, calculateFare, stopTranslations } from "@/lib/busData";
 import { formatNumber } from "@/lib/utils";
 import type { Route } from "@/types";
 import { useTranslations, useLocale } from "next-intl";
 import { useStore } from "@/hooks/store";
+import { StopCombobox } from "@/components/stop-combobox";
 
 interface FareCalculatorProps {
   route: Route;
@@ -60,6 +54,29 @@ export default function FareCalculator({
     else setInternalTo(idx);
   };
 
+  const availableStops = useMemo(() => route.stops.map((s) => s.name.en), [route.stops]);
+
+  const fromStop = fromIdx !== null && route.stops[fromIdx] ? route.stops[fromIdx].name.en : null;
+  const toStop = toIdx !== null && route.stops[toIdx] ? route.stops[toIdx].name.en : null;
+
+  const handleFromStopChange = (stopName: string | null) => {
+    if (!stopName) {
+      setFromIdx(null);
+      return;
+    }
+    const idx = route.stops.findIndex((s) => s.name.en === stopName);
+    setFromIdx(idx !== -1 ? idx : null);
+  };
+
+  const handleToStopChange = (stopName: string | null) => {
+    if (!stopName) {
+      setToIdx(null);
+      return;
+    }
+    const idx = route.stops.findIndex((s) => s.name.en === stopName);
+    setToIdx(idx !== -1 ? idx : null);
+  };
+
   const canCalc = fromIdx !== null && toIdx !== null && fromIdx !== toIdx;
   const fare = canCalc ? getFareBetweenStops(route, fromIdx, toIdx) : null;
   const distance = canCalc
@@ -82,29 +99,16 @@ export default function FareCalculator({
 
         <CardContent className="space-y-4">
           {/* From Stop */}
-          <div className="space-y-1.5">
-            <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-              {t("from")}
-            </label>
-            <Select
-              value={fromIdx !== null ? String(fromIdx) : ""}
-              onValueChange={(v) => setFromIdx(Number(v))}
-            >
-              <SelectTrigger id="from-stop" className="w-full">
-                <SelectValue placeholder={t("boardingStop")} />
-              </SelectTrigger>
-              <SelectContent>
-                {route.stops.map((stop, idx) => (
-                  <SelectItem key={idx} value={String(idx)}>
-                    {locale === "en" ? stop.name.en : stop.name.bn}
-                    <span className="ml-2 text-muted-foreground text-xs">
-                      {formatNumber(stop.distance, locale)} {t("km")}
-                    </span>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+          <StopCombobox
+            label={t("from")}
+            value={fromStop}
+            onValueChange={handleFromStopChange}
+            placeholder={t("boardingStop")}
+            availableStops={availableStops}
+            stopTranslations={stopTranslations}
+            locale={locale}
+            noStopsText={t("noStopsFound") || "No stops found"}
+          />
 
           {/* Swap icon */}
           <div className="flex justify-center">
@@ -114,29 +118,16 @@ export default function FareCalculator({
           </div>
 
           {/* To Stop */}
-          <div className="space-y-1.5">
-            <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-              {t("to")}
-            </label>
-            <Select
-              value={toIdx !== null ? String(toIdx) : ""}
-              onValueChange={(v) => setToIdx(Number(v))}
-            >
-              <SelectTrigger id="to-stop" className="w-full">
-                <SelectValue placeholder={t("alightingStop")} />
-              </SelectTrigger>
-              <SelectContent>
-                {route.stops.map((stop, idx) => (
-                  <SelectItem key={idx} value={String(idx)}>
-                    {locale === "en" ? stop.name.en : stop.name.bn}
-                    <span className="ml-2 text-muted-foreground text-xs">
-                      {formatNumber(stop.distance, locale)} {t("km")}
-                    </span>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+          <StopCombobox
+            label={t("to")}
+            value={toStop}
+            onValueChange={handleToStopChange}
+            placeholder={t("alightingStop")}
+            availableStops={availableStops}
+            stopTranslations={stopTranslations}
+            locale={locale}
+            noStopsText={t("noStopsFound") || "No stops found"}
+          />
 
           <Separator />
 

@@ -17,3 +17,23 @@ export interface Route {
 export interface BusData {
   routes: Route[];
 }
+
+export interface BusStop {
+  name: string;
+  sortOrder: number;
+}
+
+export interface BusOperator {
+  title: LocalizedText;
+  image: string | null;
+  routes: {
+    bn: BusStop[];
+    en: BusStop[];
+  };
+  time: {
+    start: string;
+    close: string;
+  };
+  service_type: string;
+}
+

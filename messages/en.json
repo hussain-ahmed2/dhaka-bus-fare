@@ -9,7 +9,7 @@
     "titleHighlight": "Calculate Fares",
     "subtitle": "Browse {totalRoutes} official bus routes across Dhaka Metro Area. View stops, distances, and get instant fare estimates.",
     "routesBadge": "Dhaka Metro Area",
-    "searchPlaceholder": "Search routes by code or origin/destination...",
+    "searchPlaceholder": "Search routes or bus companies (e.g. 'Achim', 'Mirpur-10')...",
     "totalRoutes": "Routes",
     "totalStops": "Unique Stops",
     "minFareLabel": "Min Fare",
@@ -19,7 +19,14 @@
     "showingAll": "Showing all",
     "routes": "routes",
     "resultsFoundCount": "result{count, plural, =1 {} other {s}} for \"{query}\"",
-    "browseAll": "Browse all"
+    "browseAll": "Browse all",
+    "matchingBuses": "Matching Bus Operators",
+    "matchingRoutes": "Matching Routes",
+    "viewOperator": "View Operator",
+    "popularRoutes": "Popular Routes",
+    "viewAllRoutes": "View All Routes",
+    "recentRoutes": "Recently Viewed Routes",
+    "clearHistory": "Clear History"
   },
   "Navbar": {
     "brandTitle": "Dhaka Bus",
@@ -27,9 +34,11 @@
     "navRoutes": "Routes",
     "navCalculator": "Fare Calculator",
     "navChart": "Fare Chart",
+    "navBuses": "Buses",
     "navAbout": "About",
     "navMobileCalc": "Calc",
-    "navMobileChart": "Chart"
+    "navMobileChart": "Chart",
+    "navMobileBuses": "Buses"
   },
   "Calculator": {
     "metaTitle": "Bus Fare Calculator (Direct & Connecting Routes) - Dhaka Bus",
@@ -61,7 +70,9 @@
     "leg1": "Leg 1: {route} ({from} ➔ {to})",
     "leg2": "Leg 2: {route} ({from} ➔ {to})",
     "noRoutesFound": "No direct or connecting routes found between these stops.",
-    "connectingResultsFound": "Found {count} connecting routes"
+    "connectingResultsFound": "Found {count} connecting routes",
+    "availableBuses": "Available Buses",
+    "noBusesFound": "No direct bus services found."
   },
   "RouteCalc": {
     "title": "Fare Calculator",
@@ -78,7 +89,8 @@
     "start": "Start",
     "km": "km",
     "tripSummary": "Trip Path Summary",
-    "stops": "Stops"
+    "stops": "Stops",
+    "noStopsFound": "No stops found"
   },
   "Settings": {
     "dialogTitle": "Fare Configuration",
@@ -142,7 +154,11 @@
     "searchStops": "Search stops...",
     "timelineTab": "Timeline",
     "chartTab": "Fare Chart",
-    "metaSuffix": "Bus route in Dhaka Metro Area."
+    "metaSuffix": "Bus route in Dhaka Metro Area.",
+    "operatingBuses": "Operating Bus Services",
+    "noOperatingBuses": "No operating bus operators found for this route.",
+    "serviceType": "Service Type",
+    "operatingHours": "Operating Hours"
   },
   "Footer": {
     "brandTitle": "Dhaka Bus",
@@ -157,5 +173,29 @@
     "builtBy": "Engineered By",
     "tagline": "Built for Dhaka",
     "allRightsReserved": "All rights reserved."
+  },
+  "Buses": {
+    "metaTitle": "Dhaka Bus Operators Directory - Dhaka Bus",
+    "metaDescription": "Browse and search through 180+ real-world bus operators in Dhaka. Check operational timings, service types, and full stop lists.",
+    "metaKeywords": "Dhaka bus companies, bus operators Dhaka, Achim Paribahan route, Shikhor Paribahan, Dhaka city bus list, bus timing Dhaka",
+    "badge": "Bus Directory",
+    "title": "Dhaka Bus Operators",
+    "subtitle": "Search and browse all city bus companies operating across the Dhaka Metro Area.",
+    "searchPlaceholder": "Search bus companies by name, timing, or service...",
+    "filterService": "Filter by Service",
+    "filterStop": "Filter by Stop",
+    "allServices": "All Services",
+    "allStops": "All Stops",
+    "totalBuses": "Buses Found",
+    "operatingHours": "Operating Hours",
+    "serviceType": "Service Type",
+    "stopsList": "Stops Sequence",
+    "noBuses": "No bus operators found matching your search.",
+    "estimateFare": "Stop-to-Stop Fare Estimator",
+    "selectBoarding": "Select Boarding Stop",
+    "selectDestination": "Select Destination Stop",
+    "calculatedFare": "Estimated Fare",
+    "distance": "Distance",
+    "noStopsFound": "No stops found"
   }
 }
