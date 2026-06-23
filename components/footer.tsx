@@ -9,7 +9,7 @@ export default function Footer() {
 	const currentYear = new Date().getFullYear();
 
 	return (
-		<footer className="w-full border-t border-border/40 bg-muted/30 pt-12 pb-24 md:pb-12">
+		<footer className="w-full border-t border-border/40 bg-muted/30 pt-12 pb-24 md:pb-12" role="contentinfo">
 			<div className="container mx-auto px-4 sm:px-6">
 				<div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-4 items-start">
 					{/* Brand/About */}
@@ -26,9 +26,9 @@ export default function Footer() {
 					{/* Quick Links */}
 					<div className="grid grid-cols-2 gap-4">
 						<div className="space-y-4">
-							<h4 className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+							<span role="heading" aria-level={3} className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
 								{t("navTitle")}
-							</h4>
+							</span>
 							<ul className="space-y-2.5">
 								<li>
 									<Link
@@ -57,9 +57,9 @@ export default function Footer() {
 							</ul>
 						</div>
 						<div className="space-y-4">
-							<h4 className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+							<span role="heading" aria-level={3} className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
 								{t("otherTitle")}
-							</h4>
+							</span>
 							<ul className="space-y-2.5">
 								<li>
 									<Link

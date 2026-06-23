@@ -85,7 +85,7 @@ export default function HeroCalculatorCard() {
               setToStop(null);
             }}
           >
-            <SelectTrigger className="w-full">
+            <SelectTrigger className="w-full" aria-label={t("routeOp")}>
               <SelectValue placeholder={t("allRoutes")} />
             </SelectTrigger>
             <SelectContent className="max-h-72">
@@ -121,6 +121,7 @@ export default function HeroCalculatorCard() {
               variant="outline"
               size="icon"
               onClick={swapStops}
+              aria-label={t("swapStops")}
               className="h-8 w-8 rounded-full shadow-sm bg-background border-border"
             >
               <ArrowUpDown className="h-4 w-4 text-muted-foreground" />
