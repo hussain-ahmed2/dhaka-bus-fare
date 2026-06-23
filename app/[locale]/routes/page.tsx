@@ -23,6 +23,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 		title,
 		description,
 		keywords: t("navRoutes"),
+		alternates: {
+			canonical: `https://dhakabusfare.vercel.app/${locale}/routes`,
+		},
+		openGraph: {
+			title,
+			description,
+			url: `https://dhakabusfare.vercel.app/${locale}/routes`,
+			type: "website",
+		},
+		twitter: {
+			card: "summary_large_image",
+			title,
+			description,
+		},
 	};
 }
 

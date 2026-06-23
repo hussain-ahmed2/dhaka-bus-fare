@@ -32,6 +32,20 @@ export async function generateMetadata({
 		metadataBase: new URL("https://dhakabusfare.vercel.app"),
 		title: `${routeCode} – ${routeName}`,
 		description: `${route.stops.length} ${t("stops")} · ${dist} ${t("km")} · ${t("metaSuffix")}`,
+		alternates: {
+			canonical: `https://dhakabusfare.vercel.app/${locale}/routes/${slug}`,
+		},
+		openGraph: {
+			title: `${routeCode} – ${routeName}`,
+			description: `${route.stops.length} ${t("stops")} · ${dist} ${t("km")} · ${t("metaSuffix")}`,
+			url: `https://dhakabusfare.vercel.app/${locale}/routes/${slug}`,
+			type: "website",
+		},
+		twitter: {
+			card: "summary_large_image",
+			title: `${routeCode} – ${routeName}`,
+			description: `${route.stops.length} ${t("stops")} · ${dist} ${t("km")} · ${t("metaSuffix")}`,
+		},
 	};
 }
 
