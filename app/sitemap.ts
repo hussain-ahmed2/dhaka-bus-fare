@@ -42,6 +42,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "daily",
       priority: 1.0,
     }),
+    staticEntry("/buses", {
+      changeFrequency: "daily",
+      priority: 0.9,
+    }),
+    staticEntry("/routes", {
+      changeFrequency: "daily",
+      priority: 0.9,
+    }),
     staticEntry("/fare-calculator", {
       changeFrequency: "weekly",
       priority: 0.9,

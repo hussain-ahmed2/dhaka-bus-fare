@@ -41,6 +41,20 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
 			title,
 			description,
 			keywords: `${fromName} to ${toName} bus, ${fromName} to ${toName} fare, ${t("metaKeywords")}`,
+			alternates: {
+				canonical: `https://dhakabusfare.vercel.app/${locale}/fare-calculator?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`,
+			},
+			openGraph: {
+				title,
+				description,
+				url: `https://dhakabusfare.vercel.app/${locale}/fare-calculator?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`,
+				type: "website",
+			},
+			twitter: {
+				card: "summary_large_image",
+				title,
+				description,
+			},
 		};
 	}
 
@@ -49,6 +63,20 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
 		title: t("metaTitle"),
 		description: t("metaDescription"),
 		keywords: t("metaKeywords"),
+		alternates: {
+			canonical: `https://dhakabusfare.vercel.app/${locale}/fare-calculator`,
+		},
+		openGraph: {
+			title: t("metaTitle"),
+			description: t("metaDescription"),
+			url: `https://dhakabusfare.vercel.app/${locale}/fare-calculator`,
+			type: "website",
+		},
+		twitter: {
+			card: "summary_large_image",
+			title: t("metaTitle"),
+			description: t("metaDescription"),
+		},
 	};
 }
 

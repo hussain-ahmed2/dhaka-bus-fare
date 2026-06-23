@@ -15,6 +15,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 		title: t("metaTitle"),
 		description: t("metaDescription"),
 		keywords: t("metaKeywords"),
+		alternates: {
+			canonical: `https://dhakabusfare.vercel.app/${locale}/buses`,
+		},
+		openGraph: {
+			title: t("metaTitle"),
+			description: t("metaDescription"),
+			url: `https://dhakabusfare.vercel.app/${locale}/buses`,
+			type: "website",
+		},
+		twitter: {
+			card: "summary_large_image",
+			title: t("metaTitle"),
+			description: t("metaDescription"),
+		},
 	};
 }
 

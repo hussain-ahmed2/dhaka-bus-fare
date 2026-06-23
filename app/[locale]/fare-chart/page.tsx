@@ -38,6 +38,24 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
 			title,
 			description,
 			keywords: `route ${code} fare, route ${code} chart, ${name} bus, Dhaka bus fare list, ${t("metaKeywords")}`,
+			alternates: {
+				canonical: routeSlug
+					? `https://dhakabusfare.vercel.app/${locale}/fare-chart?route=${encodeURIComponent(routeSlug)}`
+					: `https://dhakabusfare.vercel.app/${locale}/fare-chart`,
+			},
+			openGraph: {
+				title,
+				description,
+				url: routeSlug
+					? `https://dhakabusfare.vercel.app/${locale}/fare-chart?route=${encodeURIComponent(routeSlug)}`
+					: `https://dhakabusfare.vercel.app/${locale}/fare-chart`,
+				type: "website",
+			},
+			twitter: {
+				card: "summary_large_image",
+				title,
+				description,
+			},
 		};
 	}
 
@@ -46,6 +64,20 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
 		title: t("metaTitle"),
 		description: t("metaDescription"),
 		keywords: t("metaKeywords"),
+		alternates: {
+			canonical: `https://dhakabusfare.vercel.app/${locale}/fare-chart`,
+		},
+		openGraph: {
+			title: t("metaTitle"),
+			description: t("metaDescription"),
+			url: `https://dhakabusfare.vercel.app/${locale}/fare-chart`,
+			type: "website",
+		},
+		twitter: {
+			card: "summary_large_image",
+			title: t("metaTitle"),
+			description: t("metaDescription"),
+		},
 	};
 }
 

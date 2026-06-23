@@ -16,6 +16,20 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 		metadataBase: new URL("https://dhakabusfare.vercel.app"),
 		title: t("metaTitle"),
 		description: t("metaDescription"),
+		alternates: {
+			canonical: `https://dhakabusfare.vercel.app/${locale}/about`,
+		},
+		openGraph: {
+			title: t("metaTitle"),
+			description: t("metaDescription"),
+			url: `https://dhakabusfare.vercel.app/${locale}/about`,
+			type: "website",
+		},
+		twitter: {
+			card: "summary_large_image",
+			title: t("metaTitle"),
+			description: t("metaDescription"),
+		},
 	};
 }
 
