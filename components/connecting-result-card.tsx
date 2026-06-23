@@ -1,12 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "motion/react";
-import { ChevronRight, ArrowRight, RefreshCw } from "lucide-react";
+import { ChevronRight, ArrowRight, RefreshCw, Bus, Clock } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import type { ConnectingRoute } from "@/lib/connectingRoutes";
-import type { Route } from "@/types";
+import type { Route, BusOperator } from "@/types";
 import { formatNumber } from "@/lib/utils";
+import { getBusesBetweenStopsOnRoute } from "@/lib/busData";
+import { useTranslations } from "next-intl";
+import Image from "next/image";
 
 interface ConnectingResultCardProps {
 	connectingRoute: ConnectingRoute;
@@ -15,8 +19,14 @@ interface ConnectingResultCardProps {
 	stopTranslations: Record<string, string>;
 }
 
-export function ConnectingResultCard({ connectingRoute, locale, index, stopTranslations }: ConnectingResultCardProps) {
+export function ConnectingResultCard({
+	connectingRoute,
+	locale,
+	index,
+	stopTranslations,
+}: ConnectingResultCardProps) {
 	const { leg1, leg2, transferStop, totalFare, totalDistance } = connectingRoute;
+	const t = useTranslations("Calculator");
 
 	const getStopName = (nameEn: string) => {
 		if (locale === "bn") {
@@ -32,6 +42,10 @@ export function ConnectingResultCard({ connectingRoute, locale, index, stopTrans
 	const getRouteName = (route: Route) => {
 		return locale === "en" ? route.name.en : route.name.bn;
 	};
+
+	// Match available buses for both legs
+	const leg1Buses = getBusesBetweenStopsOnRoute(leg1.route, leg1.fromStop, leg1.toStop);
+	const leg2Buses = getBusesBetweenStopsOnRoute(leg2.route, leg2.fromStop, leg2.toStop);
 
 	return (
 		<motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.05 }}>
@@ -74,7 +88,7 @@ export function ConnectingResultCard({ connectingRoute, locale, index, stopTrans
 				</CardHeader>
 
 				{/* Content */}
-				<CardContent className="p-4 sm:p-5 space-y-4 bg-background">
+				<CardContent className="p-4 sm:p-5 space-y-5 bg-background">
 					{/* Leg 1 */}
 					<div className="space-y-3">
 						<div className="flex flex-wrap items-center justify-between gap-2 border-b border-border/20 pb-1.5">
@@ -94,6 +108,7 @@ export function ConnectingResultCard({ connectingRoute, locale, index, stopTrans
 							</span>
 						</div>
 
+						{/* Stop sequence */}
 						<div className="flex flex-wrap items-center gap-x-2 gap-y-2 text-sm text-muted-foreground pl-1">
 							{leg1.path.map((stop, sIdx) => (
 								<div key={stop.name.en} className="flex items-center gap-2">
@@ -111,6 +126,24 @@ export function ConnectingResultCard({ connectingRoute, locale, index, stopTrans
 									)}
 								</div>
 							))}
+						</div>
+
+						{/* Available Buses for Leg 1 */}
+						<div className="pl-1 pt-1.5 space-y-1.5">
+							<span className="text-[9px] font-extrabold text-muted-foreground uppercase tracking-widest block">
+								{t("availableBuses")}
+							</span>
+							{leg1Buses.length > 0 ? (
+								<div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+									{leg1Buses.map((bus, i) => (
+										<BusOperatorItem key={`${bus.title.en}-${bus.routes?.en?.[0]?.name || ""}-${bus.routes?.en?.[bus.routes.en.length - 1]?.name || ""}-${i}`} bus={bus} locale={locale} />
+									))}
+								</div>
+							) : (
+								<p className="text-[11px] text-muted-foreground/60 italic">
+									{t("noBusesFound")}
+								</p>
+							)}
 						</div>
 					</div>
 
@@ -148,6 +181,7 @@ export function ConnectingResultCard({ connectingRoute, locale, index, stopTrans
 							</span>
 						</div>
 
+						{/* Stop sequence */}
 						<div className="flex flex-wrap items-center gap-x-2 gap-y-2 text-sm text-muted-foreground pl-1">
 							{leg2.path.map((stop, sIdx) => (
 								<div key={stop.name.en} className="flex items-center gap-2">
@@ -166,9 +200,64 @@ export function ConnectingResultCard({ connectingRoute, locale, index, stopTrans
 								</div>
 							))}
 						</div>
+
+						{/* Available Buses for Leg 2 */}
+						<div className="pl-1 pt-1.5 space-y-1.5">
+							<span className="text-[9px] font-extrabold text-muted-foreground uppercase tracking-widest block">
+								{t("availableBuses")}
+							</span>
+							{leg2Buses.length > 0 ? (
+								<div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+									{leg2Buses.map((bus, i) => (
+										<BusOperatorItem key={`${bus.title.en}-${bus.routes?.en?.[0]?.name || ""}-${bus.routes?.en?.[bus.routes.en.length - 1]?.name || ""}-${i}`} bus={bus} locale={locale} />
+									))}
+								</div>
+							) : (
+								<p className="text-[11px] text-muted-foreground/60 italic">
+									{t("noBusesFound")}
+								</p>
+							)}
+						</div>
 					</div>
 				</CardContent>
 			</Card>
 		</motion.div>
+	);
+}
+
+function BusOperatorItem({ bus, locale }: { bus: BusOperator; locale: string }) {
+	const [hasError, setHasError] = useState(!bus.image);
+
+	return (
+		<div className="flex items-center gap-2.5 p-1.5 rounded-lg border border-border/50 bg-muted/10 hover:bg-muted/30 transition-colors">
+			<div className="relative w-11 h-7 shrink-0 rounded-md overflow-hidden bg-muted border border-border/40 flex items-center justify-center">
+				{hasError ? (
+					<Bus className="h-4 w-4 text-muted-foreground/30" />
+				) : (
+					<Image
+						src={bus.image!}
+						alt={locale === "en" ? bus.title.en : bus.title.bn}
+						fill
+						className="object-cover object-center"
+						onError={() => setHasError(true)}
+						sizes="(max-width: 768px) 44px, 44px"
+					/>
+				)}
+			</div>
+			<div className="flex-1 min-w-0">
+				<div className="font-bold text-[11px] text-foreground truncate leading-snug">
+					{locale === "en" ? bus.title.en : bus.title.bn}
+				</div>
+				<div className="flex items-center gap-1.5 mt-0.5">
+					<Badge variant="outline" className="text-[7px] py-0 px-1 font-semibold border-transparent bg-primary/5 text-primary shrink-0">
+						{bus.service_type || "Standard"}
+					</Badge>
+					<span className="text-[8px] text-muted-foreground flex items-center gap-0.5 truncate">
+						<Clock className="h-2 w-2 shrink-0 text-muted-foreground/75" />
+						{bus.time.start} - {bus.time.close}
+					</span>
+				</div>
+			</div>
+		</div>
 	);
 }

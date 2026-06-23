@@ -46,7 +46,7 @@ export default function Navbar() {
 
   const navLinks = [
     {
-      href: "/",
+      href: "/routes",
       label: t("navRoutes"),
       mobileLabel: t("navRoutes"),
       icon: Map,
@@ -62,6 +62,12 @@ export default function Navbar() {
       label: t("navChart"),
       mobileLabel: t("navMobileChart"),
       icon: Table,
+    },
+    {
+      href: "/buses",
+      label: t("navBuses"),
+      mobileLabel: t("navMobileBuses"),
+      icon: Bus,
     },
     {
       href: "/about",

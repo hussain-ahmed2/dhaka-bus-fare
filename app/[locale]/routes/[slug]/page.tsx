@@ -1,15 +1,25 @@
 "use client";
 
-import { getRouteBySlug } from "@/lib/busData";
+import { getRouteBySlug, getBusesForRoute } from "@/lib/busData";
 import { notFound } from "next/navigation";
 import RouteHero from "@/components/route-hero";
 import StopTimeline from "@/components/stop-timeline";
 import FareCalculator from "@/components/fare-calculator";
-import { useState, use, useMemo } from "react";
+import RouteOperators from "@/components/route-operators";
+import { useState, use, useMemo, useEffect } from "react";
+import { useRecentStore } from "@/hooks/recent-store";
 
 export default function RouteDetailPage({ params }: { params: Promise<{ slug: string; locale: string }> }) {
-	const { slug } = use(params);
+	const { slug, locale } = use(params);
 	const route = useMemo(() => getRouteBySlug(slug), [slug]);
+	const operators = useMemo(() => (route ? getBusesForRoute(route) : []), [route]);
+	const addViewedRoute = useRecentStore((state) => state.addViewedRoute);
+
+	useEffect(() => {
+		if (slug) {
+			addViewedRoute(slug);
+		}
+	}, [slug, addViewedRoute]);
 
 	const [fromIdx, setFromIdx] = useState<number | null>(null);
 	const [toIdx, setToIdx] = useState<number | null>(null);
@@ -40,6 +50,7 @@ export default function RouteDetailPage({ params }: { params: Promise<{ slug: st
 					{/* Stop timeline – takes up wider left column */}
 					<div className="lg:col-span-3">
 						<StopTimeline route={route} onSelectRange={handleSelectRange} selectedRange={selectedRange} />
+						<RouteOperators operators={operators} locale={locale} />
 					</div>
 
 					{/* Fare calculator – sticky right column */}

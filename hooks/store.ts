@@ -20,6 +20,14 @@ interface AppState {
 	setSelectedRouteSlug: (slug: string | null) => void;
 	setFromStopName: (stop: string | null) => void;
 	setToStopName: (stop: string | null) => void;
+
+	// Persistent bus card calculators state
+	busCalculators: Record<string, { boarding: string | null; destination: string | null }>;
+	setBusCalculator: (busTitle: string, boarding: string | null, destination: string | null) => void;
+
+	// Persistent bus card expanded state
+	expandedBuses: Record<string, boolean>;
+	setBusExpanded: (busTitle: string, expanded: boolean) => void;
 }
 
 export const useStore = create<AppState>()(
@@ -34,6 +42,24 @@ export const useStore = create<AppState>()(
 			setSelectedRouteSlug: (slug) => set({ selectedRouteSlug: slug }),
 			setFromStopName: (name) => set({ fromStopName: name }),
 			setToStopName: (name) => set({ toStopName: name }),
+
+			busCalculators: {},
+			setBusCalculator: (busTitle, boarding, destination) =>
+				set((state) => ({
+					busCalculators: {
+						...state.busCalculators,
+						[busTitle]: { boarding, destination },
+					},
+				})),
+
+			expandedBuses: {},
+			setBusExpanded: (busTitle, expanded) =>
+				set((state) => ({
+					expandedBuses: {
+						...state.expandedBuses,
+						[busTitle]: expanded,
+					},
+				})),
 		}),
 		{
 			name: "dhaka-bus-fare-store",

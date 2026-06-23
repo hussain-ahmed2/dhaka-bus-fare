@@ -1,8 +1,10 @@
 import busData from "@/data/data.json";
+import busesData from "@/data/buses.json";
 import Fuse from "fuse.js";
-import type { Route, BusData } from "@/types";
+import type { Route, BusData, BusOperator } from "@/types";
 
 const data = busData as BusData;
+const buses = (busesData as { buses: BusOperator[] }).buses;
 
 let fuseInstance: Fuse<Route> | null = null;
 
@@ -26,6 +28,13 @@ function getFuse(): Fuse<Route> {
 }
 
 // ─── Queries ────────────────────────────────────────────
+export const stopTranslations: Record<string, string> = {};
+data.routes.forEach((r) => {
+	r.stops.forEach((s) => {
+		stopTranslations[s.name.en] = s.name.bn;
+	});
+});
+
 export function getAllRoutes(): Route[] {
 	return data.routes;
 }
@@ -65,3 +74,128 @@ export function getFareBetweenStops(route: Route, fromIndex: number, toIndex: nu
 export function getTotalUniqueStops(): number {
 	return new Set(getAllRoutes().flatMap((r) => r.stops.map((s) => s.name.en))).size;
 }
+
+// ─── Bus Operator Overlap Matching ──────────────────────
+function normalizeStopName(name: string): string {
+	return name
+		.toLowerCase()
+		.replace(/[\s-]/g, "")
+		.replace(/[\(\)]/g, "")
+		.trim();
+}
+
+export function getBusesForRoute(route: Route): BusOperator[] {
+	const routeStops = new Set(route.stops.map((s) => normalizeStopName(s.name.en)));
+	const matches: BusOperator[] = [];
+
+	for (const bus of buses) {
+		if (!bus.routes || !bus.routes.en) continue;
+
+		const busStops = bus.routes.en.map((s) => normalizeStopName(s.name));
+		const sharedStops = busStops.filter((s) => routeStops.has(s));
+
+		const minStopsCount = Math.min(routeStops.size, busStops.length);
+		const overlapRatio = sharedStops.length / minStopsCount;
+
+		if (sharedStops.length >= 3 && overlapRatio >= 0.35) {
+			matches.push(bus);
+		}
+	}
+
+	return matches;
+}
+
+export function getBusesBetweenStopsOnRoute(route: Route, fromStop: string, toStop: string): BusOperator[] {
+	const routeBuses = getBusesForRoute(route);
+	const normFrom = normalizeStopName(fromStop);
+	const normTo = normalizeStopName(toStop);
+
+	return routeBuses.filter((bus) => {
+		const busStops = bus.routes.en.map((s) => normalizeStopName(s.name));
+		return busStops.includes(normFrom) && busStops.includes(normTo);
+	});
+}
+
+export function getAllBuses(): BusOperator[] {
+	return buses;
+}
+
+export function getAllBusStops(): string[] {
+	const stopsSet = new Set<string>();
+	for (const bus of buses) {
+		if (bus.routes && bus.routes.en) {
+			bus.routes.en.forEach((s) => stopsSet.add(s.name));
+		}
+	}
+	return Array.from(stopsSet).sort();
+}
+
+export function estimateDistanceBetweenStops(fromStop: string, toStop: string): number {
+	const normFrom = normalizeStopName(fromStop);
+	const normTo = normalizeStopName(toStop);
+
+	for (const r of data.routes) {
+		const fromIdx = r.stops.findIndex((s) => normalizeStopName(s.name.en) === normFrom);
+		const toIdx = r.stops.findIndex((s) => normalizeStopName(s.name.en) === normTo);
+
+		if (fromIdx !== -1 && toIdx !== -1) {
+			return Math.abs(r.stops[toIdx].distance - r.stops[fromIdx].distance);
+		}
+	}
+
+	return 2.0; // fallback km
+}
+
+let fuseBusesInstance: Fuse<BusOperator> | null = null;
+
+function getBusesFuse(): Fuse<BusOperator> {
+	if (!fuseBusesInstance) {
+		fuseBusesInstance = new Fuse(buses, {
+			keys: [
+				{ name: "title.en", weight: 2 },
+				{ name: "title.bn", weight: 2 },
+				{ name: "service_type", weight: 1.5 },
+				{ name: "routes.en.name", weight: 1 },
+				{ name: "routes.bn.name", weight: 1 },
+			],
+			threshold: 0.4,
+			ignoreLocation: true,
+			minMatchCharLength: 1,
+		});
+	}
+	return fuseBusesInstance;
+}
+
+export function searchBuses(query: string): BusOperator[] {
+	const q = query.trim();
+	if (!q) return [];
+
+	return getBusesFuse()
+		.search(q)
+		.map((r) => r.item);
+}
+
+const POPULAR_ROUTE_CODES = [
+	"A-101 No.",
+	"A-102 No.",
+	"A-110 No.",
+	"A-114 No.",
+	"A-115 No.",
+	"A-122 No.",
+	"A-127 No.",
+	"A-129 No.",
+];
+
+export function getPopularRoutes(): Route[] {
+	const popular = data.routes.filter((r) => POPULAR_ROUTE_CODES.includes(r.code.en));
+	if (popular.length >= 8) return popular.slice(0, 8);
+	// Fill remaining slots with other routes so we always show 8
+	const popularSet = new Set(popular.map((r) => r.code.en));
+	const others = data.routes.filter((r) => !popularSet.has(r.code.en));
+	return [...popular, ...others].slice(0, 8);
+}
+
+
+
+
+

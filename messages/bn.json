@@ -9,7 +9,7 @@
     "titleHighlight": "ভাড়া হিসাব করুন",
     "subtitle": "ঢাকার {totalRoutes} টি বাস রুট ব্রাউজ করুন। স্টপ, দূরত্ব দেখুন এবং ভাড়ার তাৎক্ষণিক হিসাব পান।",
     "routesBadge": "ঢাকা মেট্রো এরিয়া",
-    "searchPlaceholder": "কোড বা শুরু/গন্তব্য স্থান দিয়ে রুট খুঁজুন...",
+    "searchPlaceholder": "রুট বা বাস কোম্পানি খুঁজুন (যেমন: 'আছিম', 'মিরপুর-১০')...",
     "totalRoutes": "সর্বমোট রুট",
     "totalStops": "সর্বমোট স্টপ",
     "minFareLabel": "সর্বনিম্ন ভাড়া",
@@ -19,7 +19,14 @@
     "showingAll": "সকল",
     "routes": "টি রুট দেখানো হচ্ছে",
     "resultsFoundCount": "টি ফলাফল মিলেছে \"{query}\" এর জন্য",
-    "browseAll": "সবগুলো দেখুন"
+    "browseAll": "সবগুলো দেখুন",
+    "matchingBuses": "মিলে যাওয়া বাস অপারেটরসমূহ",
+    "matchingRoutes": "মিলে যাওয়া রুটসমূহ",
+    "viewOperator": "অপারেটর দেখুন",
+    "popularRoutes": "জনপ্রিয় রুটসমূহ",
+    "viewAllRoutes": "সবগুলো রুট দেখুন",
+    "recentRoutes": "সবশেষে দেখা রুটসমূহ",
+    "clearHistory": "ইতিহাস মুছুন"
   },
   "Navbar": {
     "brandTitle": "ঢাকা বাস",
@@ -27,9 +34,11 @@
     "navRoutes": "রুটসমূহ",
     "navCalculator": "ভাড়া হিসেব",
     "navChart": "ভাড়ার চার্ট",
+    "navBuses": "বাসসমূহ",
     "navAbout": "সম্পর্কে",
     "navMobileCalc": "হিসেব",
-    "navMobileChart": "চার্ট"
+    "navMobileChart": "চার্ট",
+    "navMobileBuses": "বাসসমূহ"
   },
   "Calculator": {
     "metaTitle": "বাস ভাড়া হিসেব (সরাসরি ও সংযোগকারী রুট) - ঢাকা বাস",
@@ -61,7 +70,9 @@
     "leg1": "১ম বাস: {route} ({from} ➔ {to})",
     "leg2": "২য় বাস: {route} ({from} ➔ {to})",
     "noRoutesFound": "এই স্টপগুলোর মধ্যে কোনো সরাসরি বা সংযোগকারী রুট পাওয়া যায়নি।",
-    "connectingResultsFound": "পাওয়া গেছে {count} টি সংযোগকারী রুট"
+    "connectingResultsFound": "পাওয়া গেছে {count} টি সংযোগকারী রুট",
+    "availableBuses": "উপলব্ধ বাসসমূহ",
+    "noBusesFound": "কোনো সরাসরি বাস সার্ভিস পাওয়া যায়নি।"
   },
   "RouteCalc": {
     "title": "ভাড়া হিসেব",
@@ -78,7 +89,8 @@
     "start": "শুরু",
     "km": "কিমি",
     "tripSummary": "ভ্রমণ পথের বিবরণ",
-    "stops": "স্টপসমূহ"
+    "stops": "স্টপসমূহ",
+    "noStopsFound": "কোনো স্টপ পাওয়া যায়নি"
   },
   "Settings": {
     "dialogTitle": "ভাড়ার কনফিগারেশন",
@@ -142,7 +154,11 @@
     "searchStops": "স্টপ খুঁজুন...",
     "timelineTab": "রুট ম্যাপ",
     "chartTab": "ভাড়ার চার্ট",
-    "metaSuffix": "ঢাকা মেট্রো এলাকার বাস রুট।"
+    "metaSuffix": "ঢাকা মেট্রো এলাকার বাস রুট।",
+    "operatingBuses": "চলাচলকারী বাস সার্ভিসসমূহ",
+    "noOperatingBuses": "এই রুটে চলাচলকারী কোনো বাস পাওয়া যায়নি।",
+    "serviceType": "সার্ভিসের ধরন",
+    "operatingHours": "চলাচলের সময়"
   },
   "Footer": {
     "brandTitle": "ঢাকা বাস",
@@ -157,5 +173,29 @@
     "builtBy": "উন্নয়নে",
     "tagline": "ঢাকার জন্য নির্মিত",
     "allRightsReserved": "সর্বস্বত্ব সংরক্ষিত।"
+  },
+  "Buses": {
+    "metaTitle": "ঢাকা বাস অপারেটর ডিরেক্টরি - ঢাকা বাস",
+    "metaDescription": "ঢাকার ১৮০টির বেশি বাস কোম্পানির বিবরণ খুঁজুন। বাসের চলাচলের সময়, সার্ভিসের ধরন এবং স্টপের তালিকা দেখুন।",
+    "metaKeywords": "ঢাকা বাস কোম্পানি, ঢাকা বাস ডিরেক্টরি, আছিম পরিবহন রুট, শিখর পরিবহন, ঢাকা সিটি বাস তালিকা, বাস চলাচলের সময়",
+    "badge": "বাস ডিরেক্টরি",
+    "title": "ঢাকা বাস অপারেটরসমূহ",
+    "subtitle": "ঢাকা মেট্রো এলাকায় চলাচলকারী সকল সিটি বাস কোম্পানির বিবরণ খুঁজুন ও ব্রাউজ করুন।",
+    "searchPlaceholder": "নাম, সময় বা সার্ভিস দিয়ে বাস কোম্পানি খুঁজুন...",
+    "filterService": "সার্ভিসের ধরন ফিল্টার",
+    "filterStop": "স্টপ ফিল্টার",
+    "allServices": "সকল সার্ভিস",
+    "allStops": "সকল স্টপ",
+    "totalBuses": "টি বাস পাওয়া গেছে",
+    "operatingHours": "চলাচলের সময়",
+    "serviceType": "সার্ভিসের ধরন",
+    "stopsList": "স্টপের তালিকা",
+    "noBuses": "আপনার খোঁজা কোনো বাস অপারেটর পাওয়া যায়নি।",
+    "estimateFare": "স্টপ-টু-স্টপ ভাড়া হিসাবকারী",
+    "selectBoarding": "শুরুর স্টপ নির্বাচন করুন",
+    "selectDestination": "গন্তব্য স্টপ নির্বাচন করুন",
+    "calculatedFare": "সম্ভাব্য ভাড়া",
+    "distance": "দূরত্ব",
+    "noStopsFound": "কোনো স্টপ পাওয়া যায়নি"
   }
 }
