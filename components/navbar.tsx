@@ -102,23 +102,26 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Nav links */}
-          <nav className="hidden md:flex items-center gap-1 flex-1 justify-center max-w-xl mx-auto">
-            {navLinks.map((link) => (
-              <Button
-                key={link.href}
-                variant="ghost"
-                size="sm"
-                asChild
-                className={cn(
-                  "px-4 transition-colors",
-                  pathname === link.href
-                    ? "bg-muted text-primary font-semibold"
-                    : "",
-                )}
-              >
-                <Link href={link.href}>{link.label}</Link>
-              </Button>
-            ))}
+          <nav aria-label="Main navigation" className="hidden md:flex items-center gap-1 flex-1 justify-center max-w-xl mx-auto">
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Button
+                  key={link.href}
+                  variant="ghost"
+                  size="sm"
+                  asChild
+                  className={cn(
+                    "px-4 transition-colors",
+                    isActive
+                      ? "bg-muted text-primary font-semibold"
+                      : "",
+                  )}
+                >
+                  <Link href={link.href} aria-current={isActive ? "page" : undefined}>{link.label}</Link>
+                </Button>
+              );
+            })}
           </nav>
 
           {/* Global Tools: Lang & Settings */}
@@ -128,6 +131,8 @@ export default function Navbar() {
                 variant="ghost"
                 size="sm"
                 onClick={() => changeLocale("en")}
+                aria-label="Switch to English"
+                aria-pressed={locale === "en"}
                 className={cn(
                   "h-7 px-2 text-[10px] font-bold rounded-full transition-all",
                   locale === "en"
@@ -141,6 +146,8 @@ export default function Navbar() {
                 variant="ghost"
                 size="sm"
                 onClick={() => changeLocale("bn")}
+                aria-label="বাংলায় পরিবর্তন করুন"
+                aria-pressed={locale === "bn"}
                 className={cn(
                   "h-7 px-2 text-[10px] font-bold rounded-full transition-all",
                   locale === "bn"
@@ -152,7 +159,7 @@ export default function Navbar() {
               </Button>
             </div>
 
-            <div className="w-px h-5 bg-border mx-0.5 sm:mx-1" />
+            <div className="w-px h-5 bg-border mx-0.5 sm:mx-1" aria-hidden="true" />
 
             <FareSettingsDialog settings={settings} onSave={setSettings} />
           </div>
@@ -161,6 +168,7 @@ export default function Navbar() {
 
       {/* Mobile App-style Bottom Navigation */}
       <nav
+        aria-label="Mobile navigation"
         className={cn(
           "md:hidden fixed bottom-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-t border-border/40 pb-safe shadow-[0_-4px_24px_-8px_rgba(0,0,0,0.1)] transition-transform duration-300 ease-in-out",
           !isVisible && "translate-y-full",
@@ -174,6 +182,7 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
+                aria-current={isActive ? "page" : undefined}
                 className={cn(
                   "group flex flex-col items-center justify-center flex-1 gap-1 transition-all duration-300",
                   isActive ? "text-primary" : "text-muted-foreground",

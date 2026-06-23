@@ -133,6 +133,8 @@ export function BusOperatorProfileCard({
 					variant="ghost"
 					size="sm"
 					onClick={() => setExpanded(!expanded)}
+					aria-expanded={expanded}
+					aria-controls={`stops-seq-${bus.title.en.replace(/\s+/g, "-").toLowerCase()}`}
 					className="text-xs font-semibold text-primary hover:bg-primary/5 px-2"
 				>
 					{expanded ? (
@@ -156,6 +158,9 @@ export function BusOperatorProfileCard({
 			<AnimatePresence>
 				{expanded && (
 					<motion.div
+						id={`stops-seq-${bus.title.en.replace(/\s+/g, "-").toLowerCase()}`}
+						role="region"
+						aria-label={t("stopsList")}
 						initial={{ height: 0, opacity: 0 }}
 						animate={{ height: "auto", opacity: 1 }}
 						exit={{ height: 0, opacity: 0 }}

@@ -141,6 +141,7 @@ export default function FareCalculator({
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.25 }}
                 className="space-y-4"
+                aria-live="polite"
               >
                 <div className="rounded-xl bg-primary/5 border border-primary/20 p-5 text-center space-y-1">
                   <p className="text-xs text-muted-foreground font-medium uppercase tracking-[0.2em]">
@@ -220,8 +221,7 @@ export default function FareCalculator({
                   {t("selectDifferent")}
                 </p>
                 <p className="text-[11px] text-muted-foreground/60 max-w-[200px] mx-auto">
-                  Select your boarding and destination stops to see the fare and
-                  trip sequence.
+                  {t("selectDifferent")}
                 </p>
               </motion.div>
             )}

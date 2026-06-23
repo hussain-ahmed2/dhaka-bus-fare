@@ -102,7 +102,7 @@ export default function BusesClient({ initialBuses, initialStops }: BusesClientP
 	};
 
 	return (
-		<main className="min-h-screen pb-16">
+		<main className="min-h-screen pb-16" aria-labelledby="buses-page-title">
 			{/* Hero banner */}
 			<section className="relative overflow-hidden bg-linear-to-br from-primary/90 via-primary to-primary/60 text-primary-foreground py-16 px-4 sm:px-6">
 				<div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -113,7 +113,7 @@ export default function BusesClient({ initialBuses, initialStops }: BusesClientP
 						<Bus className="h-3.5 w-3.5" />
 						{t("badge")}
 					</div>
-					<h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">{t("title")}</h1>
+					<h1 id="buses-page-title" className="text-3xl sm:text-4xl font-extrabold tracking-tight">{t("title")}</h1>
 					<p className="text-sm sm:text-base text-primary-foreground/80 max-w-md mx-auto">{t("subtitle")}</p>
 				</div>
 			</section>
@@ -134,7 +134,7 @@ export default function BusesClient({ initialBuses, initialStops }: BusesClientP
 					{/* Service Filter */}
 					<div className="md:col-span-3">
 						<Select value={selectedService} onValueChange={handleServiceChange}>
-							<SelectTrigger className="w-full h-11!">
+							<SelectTrigger className="w-full h-11!" aria-label={t("filterService")}>
 								<SelectValue placeholder={t("filterService")} />
 							</SelectTrigger>
 							<SelectContent>

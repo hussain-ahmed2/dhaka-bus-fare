@@ -56,6 +56,7 @@
     "boardingStop": "বোর্ডিং স্টপ নির্বাচন করুন",
     "destinationStop": "গন্তব্য স্টপ নির্বাচন করুন",
     "calcButton": "ভাড়া হিসাব করুন",
+    "swapStops": "স্টপ অদলবদল করুন",
     "resultsTitle": "ভাড়ার ফলাফল",
     "resultsFound": "পাওয়া গেছে {count} টি রুট",
     "resultsEmpty": "ফলাফল দেখতে আপনার ভ্রমণের বিবরণ দিন।",

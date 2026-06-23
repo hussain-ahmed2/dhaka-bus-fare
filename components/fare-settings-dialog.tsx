@@ -52,6 +52,8 @@ export default function FareSettingsDialog({
         size="icon"
         onClick={handleOpen}
         title="Configure fare settings"
+        aria-label={t("dialogTitle")}
+        aria-haspopup="dialog"
         id="open-settings-btn"
         className="h-8 w-8 rounded-full"
       >

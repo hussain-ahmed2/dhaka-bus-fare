@@ -123,7 +123,7 @@ export default function StopTimeline({
                 className="w-full overflow-x-auto border-t border-b bg-card text-card-foreground select-none"
                 onMouseLeave={() => setHoveredCell(null)}
               >
-                <table className="w-full text-xs text-center border-collapse min-w-max">
+                <table className="w-full text-xs text-center border-collapse min-w-max" aria-label={tRoute("routeDetails")}>
                   <thead>
                     <tr className="sticky top-0 z-20">
                       <th className="p-1.5 sm:p-2.5 border-b border-r bg-muted sticky left-0 top-0 z-50 shadow-[1px_0_0_0_var(--border)] w-[80px] sm:w-auto">
