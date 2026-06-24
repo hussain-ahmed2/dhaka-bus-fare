@@ -110,7 +110,7 @@ export default async function MetroPage() {
 
 			{/* ── Content Grid ───────────────────────────────── */}
 			<section className="container mx-auto px-4 sm:px-6 py-10">
-				<div className="grid lg:grid-cols-2 gap-8">
+				<div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 					{/* Left: Fare Calculator + Chart */}
 					<div className="space-y-6">
 						<MetroFareCalculator />
