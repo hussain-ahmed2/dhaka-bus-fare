@@ -17,7 +17,7 @@ export function NearestStationCard({ nearest }: NearestStationCardProps) {
 	const locale = useLocale();
 
 	return (
-		<div className="absolute bottom-4 left-3 right-3 sm:right-auto sm:w-[350px] z-[1000] pointer-events-none">
+		<div className="absolute bottom-4 left-3 right-3 sm:right-auto sm:w-[350px] z-1000 pointer-events-none">
 			<div className="pointer-events-auto bg-background/90 backdrop-blur-xl rounded-xl border border-border shadow-lg p-3">
 				<div className="flex items-center justify-between">
 					<div>

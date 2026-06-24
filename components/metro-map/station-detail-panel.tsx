@@ -5,12 +5,7 @@ import { X, Navigation, TrainFront } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { formatNumber } from "@/lib/utils";
 import type { MetroStation } from "@/types";
-import {
-	calculateMetroFare,
-	getMetroFareWithCard,
-	haversineDistance,
-	findNearestStation,
-} from "@/lib/metroData";
+import { calculateMetroFare, getMetroFareWithCard, haversineDistance, findNearestStation } from "@/lib/metroData";
 
 interface StationDetailPanelProps {
 	selectedStation: MetroStation;
@@ -36,7 +31,7 @@ export function StationDetailPanel({
 			animate={{ y: 0, opacity: 1 }}
 			exit={{ y: "100%", opacity: 0 }}
 			transition={{ type: "spring", damping: 25, stiffness: 200 }}
-			className="absolute bottom-0 left-0 right-0 sm:bottom-4 sm:left-3 sm:right-auto sm:w-[350px] z-[1001] pointer-events-auto"
+			className="absolute bottom-0 left-0 right-0 sm:bottom-4 sm:left-3 sm:right-auto sm:w-[350px] z-1001 pointer-events-auto"
 		>
 			<div className="bg-background/95 backdrop-blur-xl rounded-t-2xl sm:rounded-xl border-t sm:border border-border shadow-2xl p-4 space-y-4">
 				{/* Header */}
@@ -72,9 +67,7 @@ export function StationDetailPanel({
 				{/* Info Grid */}
 				<div className="grid grid-cols-2 gap-2 text-xs">
 					<div className="bg-muted/30 border border-border/50 rounded-lg p-2 space-y-0.5">
-						<p className="text-[9px] text-muted-foreground font-semibold uppercase">
-							{t("distance")}
-						</p>
+						<p className="text-[9px] text-muted-foreground font-semibold uppercase">{t("distance")}</p>
 						<p className="font-bold text-foreground">
 							{formatNumber(selectedStation.distanceFromStart, locale)} {t("km")}
 						</p>
@@ -82,9 +75,7 @@ export function StationDetailPanel({
 					</div>
 
 					<div className="bg-muted/30 border border-border/50 rounded-lg p-2 space-y-0.5">
-						<p className="text-[9px] text-muted-foreground font-semibold uppercase">
-							Next Train
-						</p>
+						<p className="text-[9px] text-muted-foreground font-semibold uppercase">Next Train</p>
 						<p
 							className={`font-bold ${selectedStation.underConstruction ? "text-muted-foreground" : "text-primary"}`}
 						>
@@ -116,10 +107,8 @@ export function StationDetailPanel({
 								selectedStation.id;
 
 							const isUnderConstruction = selectedStation.underConstruction;
-							const nearestOperationalId = findNearestStation(
-								userLocation.lat,
-								userLocation.lng,
-							).station.id;
+							const nearestOperationalId = findNearestStation(userLocation.lat, userLocation.lng).station
+								.id;
 							const fareVal = isUnderConstruction
 								? 0
 								: calculateMetroFare(nearestOperationalId, selectedStation.id);

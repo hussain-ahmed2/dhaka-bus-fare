@@ -15,17 +15,17 @@ export function StatusBar({ operating, frequency, nextTrain, trainsCount }: Stat
 	const locale = useLocale();
 
 	return (
-		<div className="absolute top-3 left-3 right-3 sm:right-auto z-[1000] pointer-events-none">
+		<div className="absolute top-3 left-3 right-3 sm:right-auto z-1000 pointer-events-none">
 			<div className="pointer-events-auto bg-background/90 backdrop-blur-xl rounded-xl border border-border shadow-lg p-3 flex flex-wrap sm:flex-nowrap items-center justify-between gap-3">
-				<div className="flex items-center gap-2 flex-shrink-0">
+				<div className="flex items-center gap-2 shrink-0">
 					<div
-						className={`w-2.5 h-2.5 rounded-full ${operating ? "bg-primary animate-pulse" : "bg-red-400"} flex-shrink-0`}
+						className={`w-2.5 h-2.5 rounded-full ${operating ? "bg-primary animate-pulse" : "bg-red-400"} shrink-0`}
 					/>
 					<span className="text-xs font-bold whitespace-nowrap">
 						{operating ? t("metroOperating") : t("metroClosed")}
 					</span>
 				</div>
-				<div className="flex items-center gap-2 text-[10px] text-muted-foreground flex-shrink-0 flex-wrap sm:flex-nowrap">
+				<div className="flex items-center gap-2 text-[10px] text-muted-foreground shrink-0 flex-wrap sm:flex-nowrap">
 					{operating && (
 						<>
 							<span className="font-semibold whitespace-nowrap">

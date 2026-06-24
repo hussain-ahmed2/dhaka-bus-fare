@@ -2,7 +2,6 @@ import { getAllRoutes, getTotalUniqueStops } from "@/lib/busData";
 import HomeRouteGrid from "@/components/home-route-grid";
 import HeroCalculatorCard from "@/components/hero-calculator-card";
 import RecentlyViewedSection from "@/components/recently-viewed-wrapper";
-import { Separator } from "@/components/ui/separator";
 import { getTranslations, getLocale } from "next-intl/server";
 import { formatNumber } from "@/lib/utils";
 import { Bus, TrainFront, Compass, MapPin, ArrowRight } from "lucide-react";
@@ -69,9 +68,7 @@ export default async function HomePage() {
 			<section className="bg-muted/10 border-y border-border py-12">
 				<div className="container mx-auto px-4 sm:px-6 space-y-10">
 					<div className="text-center space-y-2">
-						<h2 className="text-3xl font-extrabold tracking-tight text-foreground">
-							{t("featuresTitle")}
-						</h2>
+						<h2 className="text-3xl font-extrabold tracking-tight text-foreground">{t("featuresTitle")}</h2>
 						<p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
 							{t("featuresSubtitle")}
 						</p>
@@ -88,9 +85,7 @@ export default async function HomePage() {
 									<h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
 										{t("fMetroTitle")}
 									</h3>
-									<p className="text-sm text-muted-foreground leading-relaxed">
-										{t("fMetroDesc")}
-									</p>
+									<p className="text-sm text-muted-foreground leading-relaxed">{t("fMetroDesc")}</p>
 								</div>
 							</div>
 							<Link
@@ -112,9 +107,7 @@ export default async function HomePage() {
 									<h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
 										{t("fBusTitle")}
 									</h3>
-									<p className="text-sm text-muted-foreground leading-relaxed">
-										{t("fBusDesc")}
-									</p>
+									<p className="text-sm text-muted-foreground leading-relaxed">{t("fBusDesc")}</p>
 								</div>
 							</div>
 							<Link
@@ -136,9 +129,7 @@ export default async function HomePage() {
 									<h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
 										{t("fFareTitle")}
 									</h3>
-									<p className="text-sm text-muted-foreground leading-relaxed">
-										{t("fFareDesc")}
-									</p>
+									<p className="text-sm text-muted-foreground leading-relaxed">{t("fFareDesc")}</p>
 								</div>
 							</div>
 							<Link

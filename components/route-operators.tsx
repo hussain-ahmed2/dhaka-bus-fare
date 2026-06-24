@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { motion } from "motion/react";
-import { Bus, Clock, Shield } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Bus, Clock } from "lucide-react";
+import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useTranslations } from "next-intl";
 import type { BusOperator } from "@/types";
@@ -68,8 +68,7 @@ export default function RouteOperators({ operators, locale }: RouteOperatorsProp
 }
 
 function OperatorCard({ operator, locale }: { operator: BusOperator; locale: string }) {
-	const t = useTranslations("Route");
-	const [imageSrc, setImageSrc] = useState<string>(operator.image || "");
+	const [imageSrc] = useState<string>(operator.image || "");
 	const [hasError, setHasError] = useState(!operator.image);
 
 	const handleImageError = () => {
@@ -103,7 +102,10 @@ function OperatorCard({ operator, locale }: { operator: BusOperator; locale: str
 				</h4>
 
 				<div className="flex flex-wrap gap-1">
-					<Badge variant="secondary" className="text-[10px] py-0 px-2 font-bold bg-primary/10 text-primary border-transparent">
+					<Badge
+						variant="secondary"
+						className="text-[10px] py-0 px-2 font-bold bg-primary/10 text-primary border-transparent"
+					>
 						{operator.service_type || (locale === "en" ? "Standard Service" : "সাধারণ সার্ভিস")}
 					</Badge>
 				</div>

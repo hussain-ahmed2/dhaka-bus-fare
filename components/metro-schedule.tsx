@@ -1,12 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import {
-	Card,
-	CardContent,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
 	getMetroLine,
@@ -18,17 +13,7 @@ import {
 } from "@/lib/metroData";
 import { formatNumber } from "@/lib/utils";
 import { useTranslations, useLocale } from "next-intl";
-import {
-	Clock,
-	TrainFront,
-	CircleDot,
-	Timer,
-	Ticket,
-	CreditCard,
-	Baby,
-	Percent,
-	Luggage,
-} from "lucide-react";
+import { Clock, TrainFront, CircleDot, Timer, Ticket, CreditCard, Percent, Luggage } from "lucide-react";
 
 export default function MetroSchedule() {
 	const t = useTranslations("Metro");
@@ -81,9 +66,7 @@ export default function MetroSchedule() {
 									</p>
 								)}
 								{!operating && nextTrain === -1 && (
-									<p className="text-xs text-muted-foreground">
-										{t("serviceEnded")}
-									</p>
+									<p className="text-xs text-muted-foreground">{t("serviceEnded")}</p>
 								)}
 							</div>
 						</div>
@@ -140,9 +123,7 @@ export default function MetroSchedule() {
 							<p className="text-[10px] text-orange-600 font-semibold uppercase tracking-wider">
 								{t("peakHours")}
 							</p>
-							<p className="text-[9px] text-orange-500 mt-0.5">
-								7:00-11:00, 16:00-20:00
-							</p>
+							<p className="text-[9px] text-orange-500 mt-0.5">7:00-11:00, 16:00-20:00</p>
 						</div>
 						<div className="rounded-xl bg-sky-50 border border-sky-200 p-3 text-center">
 							<CircleDot className="h-4 w-4 mx-auto mb-1 text-sky-600" />
