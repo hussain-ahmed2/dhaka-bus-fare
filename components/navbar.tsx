@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Bus, Map, Calculator, Table, Info, TrainFront } from "lucide-react";
+import { Bus, Map, Calculator, Table, Info, TrainFront, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import FareSettingsDialog from "@/components/fare-settings-dialog";
 import { useStore } from "@/hooks/store";
@@ -46,6 +46,13 @@ export default function Navbar() {
 
   const navLinks = [
     {
+      href: "/",
+      label: t("navHome"),
+      mobileLabel: t("navMobileHome"),
+      icon: Home,
+      mobileOnly: true,
+    },
+    {
       href: "/metro",
       label: t("navMetro"),
       mobileLabel: t("navMobileMetro"),
@@ -68,6 +75,7 @@ export default function Navbar() {
       label: t("navChart"),
       mobileLabel: t("navMobileChart"),
       icon: Table,
+      desktopOnly: true,
     },
     {
       href: "/buses",
@@ -80,6 +88,7 @@ export default function Navbar() {
       label: t("navAbout"),
       mobileLabel: t("navAbout"),
       icon: Info,
+      desktopOnly: true,
     },
   ];
 
@@ -109,25 +118,27 @@ export default function Navbar() {
 
           {/* Desktop Nav links */}
           <nav aria-label="Main navigation" className="hidden md:flex items-center gap-1 flex-1 justify-center max-w-xl mx-auto">
-            {navLinks.map((link) => {
-              const isActive = pathname === link.href;
-              return (
-                <Button
-                  key={link.href}
-                  variant="ghost"
-                  size="sm"
-                  asChild
-                  className={cn(
-                    "px-4 transition-colors",
-                    isActive
-                      ? "bg-muted text-primary font-semibold"
-                      : "",
-                  )}
-                >
-                  <Link href={link.href} aria-current={isActive ? "page" : undefined}>{link.label}</Link>
-                </Button>
-              );
-            })}
+            {navLinks
+              .filter((link) => !link.mobileOnly)
+              .map((link) => {
+                const isActive = pathname === link.href;
+                return (
+                  <Button
+                    key={link.href}
+                    variant="ghost"
+                    size="sm"
+                    asChild
+                    className={cn(
+                      "px-4 transition-colors",
+                      isActive
+                        ? "bg-muted text-primary font-semibold"
+                        : "",
+                    )}
+                  >
+                    <Link href={link.href} aria-current={isActive ? "page" : undefined}>{link.label}</Link>
+                  </Button>
+                );
+              })}
           </nav>
 
           {/* Global Tools: Lang & Settings */}
@@ -181,43 +192,45 @@ export default function Navbar() {
         )}
       >
         <div className="flex items-center justify-around h-16 px-2 max-w-lg mx-auto">
-          {navLinks.map((link) => {
-            const isActive = pathname === link.href;
-            const Icon = link.icon;
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                aria-current={isActive ? "page" : undefined}
-                className={cn(
-                  "group flex flex-col items-center justify-center flex-1 gap-1 transition-all duration-300",
-                  isActive ? "text-primary" : "text-muted-foreground",
-                )}
-              >
-                <div
+          {navLinks
+            .filter((link) => !link.desktopOnly)
+            .map((link) => {
+              const isActive = pathname === link.href;
+              const Icon = link.icon;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  aria-current={isActive ? "page" : undefined}
                   className={cn(
-                    "flex items-center justify-center h-8 w-12 rounded-full transition-all duration-300 group-active:scale-90",
-                    isActive ? "bg-primary/10" : "group-hover:bg-muted",
+                    "group flex flex-col items-center justify-center flex-1 gap-1 transition-all duration-300",
+                    isActive ? "text-primary" : "text-muted-foreground",
                   )}
                 >
-                  <Icon
+                  <div
                     className={cn(
-                      "h-5 w-5",
-                      isActive ? "stroke-[2.5px]" : "stroke-2",
+                      "flex items-center justify-center h-8 w-12 rounded-full transition-all duration-300 group-active:scale-90",
+                      isActive ? "bg-primary/10" : "group-hover:bg-muted",
                     )}
-                  />
-                </div>
-                <span
-                  className={cn(
-                    "text-[10px] font-medium leading-none transition-all duration-300",
-                    isActive ? "font-bold scale-105" : "",
-                  )}
-                >
-                  {link.mobileLabel}
-                </span>
-              </Link>
-            );
-          })}
+                  >
+                    <Icon
+                      className={cn(
+                        "h-5 w-5",
+                        isActive ? "stroke-[2.5px]" : "stroke-2",
+                      )}
+                    />
+                  </div>
+                  <span
+                    className={cn(
+                      "text-[10px] font-medium leading-none transition-all duration-300",
+                      isActive ? "font-bold scale-105" : "",
+                    )}
+                  >
+                    {link.mobileLabel}
+                  </span>
+                </Link>
+              );
+            })}
         </div>
       </nav>
     </>

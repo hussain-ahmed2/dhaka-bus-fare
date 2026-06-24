@@ -42,6 +42,8 @@
   "Navbar": {
     "brandTitle": "ঢাকা বাস",
     "brandSubtitle": "ভাড়া ও রুট",
+    "navHome": "হোম",
+    "navMobileHome": "হোম",
     "navRoutes": "রুটসমূহ",
     "navCalculator": "ভাড়া হিসেব",
     "navChart": "ভাড়ার চার্ট",

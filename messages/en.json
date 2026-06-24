@@ -42,6 +42,8 @@
   "Navbar": {
     "brandTitle": "Dhaka Bus",
     "brandSubtitle": "Fare & Routes",
+    "navHome": "Home",
+    "navMobileHome": "Home",
     "navRoutes": "Routes",
     "navCalculator": "Fare Calculator",
     "navChart": "Fare Chart",
