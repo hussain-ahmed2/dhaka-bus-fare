@@ -45,6 +45,7 @@ export interface MetroStation {
   lng: number;
   distanceFromStart: number;
   underConstruction?: boolean;
+  segmentPath?: [number, number][];
 }
 
 export interface MetroFareSlab {

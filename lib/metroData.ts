@@ -166,6 +166,59 @@ export function getNextTrainMinutes(now: Date): number {
 	return freq - minutesSinceLastTrain;
 }
 
+// ─── Track Path Interpolation & Coordinates ─────────────
+export function interpolatePath(path: [number, number][], progress: number): [number, number] {
+	if (!path || path.length === 0) return [0, 0];
+	if (path.length === 1) return path[0];
+	if (progress <= 0) return path[0];
+	if (progress >= 1) return path[path.length - 1];
+
+	const segmentDistances: number[] = [];
+	let totalDist = 0;
+	for (let i = 0; i < path.length - 1; i++) {
+		const dy = path[i + 1][0] - path[i][0];
+		const dx = path[i + 1][1] - path[i][1];
+		const d = Math.sqrt(dy * dy + dx * dx);
+		segmentDistances.push(d);
+		totalDist += d;
+	}
+
+	if (totalDist === 0) return path[0];
+
+	const targetDist = progress * totalDist;
+	let accumDist = 0;
+	for (let i = 0; i < path.length - 1; i++) {
+		const d = segmentDistances[i];
+		if (accumDist + d >= targetDist) {
+			const segProgress = d > 0 ? (targetDist - accumDist) / d : 0;
+			const lat = path[i][0] + (path[i + 1][0] - path[i][0]) * segProgress;
+			const lng = path[i][1] + (path[i + 1][1] - path[i][1]) * segProgress;
+			return [lat, lng];
+		}
+		accumDist += d;
+	}
+
+	return path[path.length - 1];
+}
+
+export function getMetroLineCoords(): [number, number][] {
+	const stations = getMetroStations();
+	const coords: [number, number][] = [];
+	for (let i = 0; i < stations.length; i++) {
+		const s = stations[i];
+		if (s.segmentPath && s.segmentPath.length > 0) {
+			for (let j = 0; j < s.segmentPath.length - 1; j++) {
+				coords.push(s.segmentPath[j]);
+			}
+		} else {
+			coords.push([s.lat, s.lng]);
+		}
+	}
+	const last = stations[stations.length - 1];
+	coords.push([last.lat, last.lng]);
+	return coords;
+}
+
 // ─── Train Simulation ───────────────────────────────────
 export function simulateTrainPositions(now: Date): SimulatedTrain[] {
 	if (!isMetroOperating(now)) return [];
@@ -262,8 +315,12 @@ export function simulateTrainPositions(now: Date): SimulatedTrain[] {
 					// Moving between stations
 					const segmentDuration = arr - dep;
 					progress = segmentDuration > 0 ? (cycleTime - dep) / segmentDuration : 0;
-					lat = stations[sIdx].lat + (stations[sIdx + 1].lat - stations[sIdx].lat) * progress;
-					lng = stations[sIdx].lng + (stations[sIdx + 1].lng - stations[sIdx].lng) * progress;
+					
+					const path = stations[sIdx].segmentPath || [[stations[sIdx].lat, stations[sIdx].lng], [stations[sIdx + 1].lat, stations[sIdx + 1].lng]];
+					const interpolated = interpolatePath(path as [number, number][], progress);
+					lat = interpolated[0];
+					lng = interpolated[1];
+
 					fromStation = stations[sIdx];
 					toStation = stations[sIdx + 1];
 					found = true;
@@ -318,8 +375,13 @@ export function simulateTrainPositions(now: Date): SimulatedTrain[] {
 					// Moving between stations
 					const segmentDuration = arr - dep;
 					progress = segmentDuration > 0 ? (tOffset - dep) / segmentDuration : 0;
-					lat = stations[actualFromIdx].lat + (stations[actualToIdx].lat - stations[actualFromIdx].lat) * progress;
-					lng = stations[actualFromIdx].lng + (stations[actualToIdx].lng - stations[actualFromIdx].lng) * progress;
+
+					const segmentPoints = stations[actualToIdx].segmentPath || [[stations[actualToIdx].lat, stations[actualToIdx].lng], [stations[actualFromIdx].lat, stations[actualFromIdx].lng]];
+					const path = [...segmentPoints].reverse();
+					const interpolated = interpolatePath(path as [number, number][], progress);
+					lat = interpolated[0];
+					lng = interpolated[1];
+
 					fromStation = stations[actualFromIdx];
 					toStation = stations[actualToIdx];
 					found = true;

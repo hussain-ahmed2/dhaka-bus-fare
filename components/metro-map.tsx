@@ -24,6 +24,7 @@ import {
 	calculateMetroFare,
 	getMetroFareWithCard,
 	haversineDistance,
+	getMetroLineCoords,
 } from "@/lib/metroData";
 import type { SimulatedTrain, MetroStation } from "@/types";
 import { useTranslations, useLocale } from "next-intl";
@@ -277,8 +278,8 @@ export default function MetroMap() {
 	const mapCenter: [number, number] = [23.7950, 90.3900];
 	const mapZoom = 12;
 
-	// Station coordinates for the polyline
-	const lineCoords: [number, number][] = stations.map((s) => [s.lat, s.lng]);
+	// Curved track coordinates for the polyline
+	const lineCoords: [number, number][] = getMetroLineCoords();
 
 	// ── Train simulation loop ───────────────────────────
 	useEffect(() => {
