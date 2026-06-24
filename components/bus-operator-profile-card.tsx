@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useTranslations } from "next-intl";
-import { estimateDistanceBetweenStops, stopTranslations } from "@/lib/busData";
+import { estimateDistanceBetweenStops, stopTranslations, translateServiceType } from "@/lib/busData";
 import { StopCombobox } from "@/components/stop-combobox";
 import { formatNumber, formatTime } from "@/lib/utils";
 import { useStore } from "@/hooks/store";
@@ -112,7 +112,7 @@ export function BusOperatorProfileCard({
 							variant="secondary"
 							className="text-[10px] font-bold bg-primary/10 text-primary border-transparent"
 						>
-							{bus.service_type || (locale === "en" ? "Standard" : "সাধারণ")}
+							{bus.service_type ? translateServiceType(bus.service_type, locale) : (locale === "en" ? "Standard" : "সাধারণ")}
 						</Badge>
 					</div>
 

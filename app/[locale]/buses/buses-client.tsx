@@ -5,7 +5,7 @@ import { Bus } from "lucide-react";
 import SearchBar from "@/components/search-bar";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useTranslations, useLocale } from "next-intl";
-import { stopTranslations, searchBuses } from "@/lib/busData";
+import { stopTranslations, searchBuses, translateServiceType } from "@/lib/busData";
 import { StopCombobox } from "@/components/stop-combobox";
 import { formatNumber } from "@/lib/utils";
 import { useStore } from "@/hooks/store";
@@ -143,7 +143,7 @@ export default function BusesClient({ initialBuses, initialStops }: BusesClientP
 								</SelectItem>
 								{serviceTypes.map((type) => (
 									<SelectItem key={type} value={type} className="h-11">
-										{type}
+										{translateServiceType(type, locale)}
 									</SelectItem>
 								))}
 							</SelectContent>

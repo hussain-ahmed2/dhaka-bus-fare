@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import type { ConnectingRoute } from "@/lib/connectingRoutes";
 import type { Route, BusOperator } from "@/types";
 import { formatNumber, formatTime } from "@/lib/utils";
-import { getBusesBetweenStopsOnRoute } from "@/lib/busData";
+import { getBusesBetweenStopsOnRoute, translateServiceType } from "@/lib/busData";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 
@@ -250,7 +250,7 @@ function BusOperatorItem({ bus, locale }: { bus: BusOperator; locale: string }) 
 				</div>
 				<div className="flex items-center gap-1.5 mt-0.5">
 					<Badge variant="outline" className="text-[7px] py-0 px-1 font-semibold border-transparent bg-primary/5 text-primary shrink-0">
-						{bus.service_type || (locale === "en" ? "Standard" : "সাধারণ")}
+						{bus.service_type ? translateServiceType(bus.service_type, locale) : (locale === "en" ? "Standard" : "সাধারণ")}
 					</Badge>
 					<span className="text-[8px] text-muted-foreground flex items-center gap-0.5 truncate">
 						<Clock className="h-2 w-2 shrink-0 text-muted-foreground/75" />

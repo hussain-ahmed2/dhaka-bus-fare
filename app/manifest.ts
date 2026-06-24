@@ -2,9 +2,9 @@ import type { MetadataRoute } from 'next'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Dhaka Bus Fare & Routes',
-    short_name: 'Dhaka Bus',
-    description: 'Find bus routes and calculate fares in Dhaka Metro Area.',
+    name: 'Dhaka Bus & Metro',
+    short_name: 'Dhaka Bus & Metro',
+    description: 'Find bus routes, calculate fares, and view live metro map simulation in Dhaka Metro Area.',
     start_url: '/',
     display: 'standalone',
     background_color: '#ffffff',
