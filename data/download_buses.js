@@ -115,11 +115,12 @@ async function main() {
 			const destPath = path.join(imagesDir, filename);
 			const localImagePath = `/images/buses/${filename}`;
 
-			optimizedBus.image = localImagePath;
+			if (downloadedUrlsMap.has(imageUrl)) {
+				optimizedBus.image = downloadedUrlsMap.get(imageUrl);
+			} else {
+				downloadedUrlsMap.set(imageUrl, localImagePath);
+				optimizedBus.image = localImagePath;
 
-			if (!downloadedUrlsMap.has(imageUrl)) {
-				// Schedule download task
-				downloadedUrlsMap.set(imageUrl, destPath);
 				downloadTasks.push(async () => {
 					try {
 						console.log(`Downloading: ${imageUrl} -> ${filename}...`);
@@ -127,7 +128,6 @@ async function main() {
 						console.log(`✓ Success: ${filename}`);
 					} catch (error) {
 						console.error(`✗ Error downloading ${titleEn} image: ${error.message}`);
-						// Fallback to null image on failure
 						optimizedBus.image = null;
 					}
 				});

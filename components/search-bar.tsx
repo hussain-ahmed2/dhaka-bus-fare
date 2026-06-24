@@ -23,7 +23,7 @@ export default function SearchBar({ placeholder, value, onChange, onClear }: Sea
 				onChange={(e) => onChange(e.target.value)}
 				placeholder={placeholder ?? "Search routes, stops…"}
 				aria-label={placeholder ?? "Search routes, stops"}
-				className="pl-10 pr-10 h-12 text-sm rounded-xl border-border/60 bg-background/80 backdrop-blur-sm"
+				className="pl-10 pr-10 h-12 text-sm rounded-4xl border-border/60 bg-background/80 backdrop-blur-sm"
 			/>
 			{value && (
 				<Button

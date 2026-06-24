@@ -29,10 +29,30 @@ function getFuse(): Fuse<Route> {
 
 // ─── Queries ────────────────────────────────────────────
 export const stopTranslations: Record<string, string> = {};
+
+// 1. Populate from global routes
 data.routes.forEach((r) => {
 	r.stops.forEach((s) => {
 		stopTranslations[s.name.en] = s.name.bn;
 	});
+});
+
+// 2. Populate from bus operators routes
+buses.forEach((bus) => {
+	if (bus.routes && bus.routes.en && bus.routes.bn) {
+		const bnMap = new Map<number, string>();
+		bus.routes.bn.forEach((s) => {
+			bnMap.set(s.sortOrder, s.name);
+		});
+		bus.routes.en.forEach((s, idx) => {
+			const bnName = bnMap.get(s.sortOrder) || (bus.routes.bn[idx] ? bus.routes.bn[idx].name : null);
+			if (bnName) {
+				if (!stopTranslations[s.name]) {
+					stopTranslations[s.name] = bnName;
+				}
+			}
+		});
+	}
 });
 
 export function getAllRoutes(): Route[] {
@@ -193,6 +213,20 @@ export function getPopularRoutes(): Route[] {
 	const popularSet = new Set(popular.map((r) => r.code.en));
 	const others = data.routes.filter((r) => !popularSet.has(r.code.en));
 	return [...popular, ...others].slice(0, 8);
+}
+
+export function translateServiceType(type: string, locale: string): string {
+	if (locale !== "bn") return type;
+	const translations: Record<string, string> = {
+		"Seating Service": "সিটিং সার্ভিস",
+		"Semi-Seating Service": "সেমি-সিটিং সার্ভিস",
+		"Gate Lock Service": "গেট লক সার্ভিস",
+		"Direct Service": "ডাইরেক্ট সার্ভিস",
+		"Local Service": "লোকাল সার্ভিস",
+		"Standard Service": "সাধারণ সার্ভিস",
+		"Standard": "সাধারণ",
+	};
+	return translations[type] || type;
 }
 
 
