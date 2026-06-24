@@ -16,6 +16,8 @@ export async function GET() {
 - Lists all ${busCount} bus operators in the Dhaka Metro Area with their active routes and timings
 - Calculates bus fares between any two stops based on distance
 - Provides an interactive stop-to-stop fare matrix for any route
+- Provides an interactive, physics-simulated real-time tracking map of the Dhaka Metro Rail (MRT Line-6)
+- Calculates metro fares (including MRT/Rapid Pass discounts) and schedules
 - Supports both English and Bengali (বাংলা) languages
 
 ## Key Pages
@@ -25,6 +27,8 @@ export async function GET() {
 - [Bus Directory](${BASE_URL}/en/buses): Search and browse all ${busCount} real-world bus operators with routes and stop sequence
 - [Fare Calculator](${BASE_URL}/en/fare-calculator): Calculate fare between any two stops (supports direct and 1-transfer connecting routes)
 - [Fare Chart](${BASE_URL}/en/fare-chart): View the complete stop-to-stop fare matrix for any selected route
+- [Dhaka Metro Rail](${BASE_URL}/en/metro): Metro schedules, fare calculator, fare chart, and discount details
+- [Interactive Metro Map](${BASE_URL}/en/metro/map): Real-time simulated train positions, nearest station finder, and walking directions
 - [About](${BASE_URL}/en/about): Project background and data sources
 
 ## Fare Calculation Method
