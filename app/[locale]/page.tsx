@@ -76,7 +76,10 @@ export default async function HomePage() {
 
 					<div className="grid md:grid-cols-3 gap-6">
 						{/* Metro Map Feature */}
-						<div className="border border-border bg-card text-card-foreground rounded-2xl p-6 transition-all duration-300 hover:shadow-xl hover:border-primary/30 flex flex-col justify-between group">
+						<Link
+							href="/metro"
+							className="border border-border bg-card text-card-foreground rounded-2xl p-6 transition-all duration-300 hover:shadow-xl hover:border-primary/30 flex flex-col justify-between group cursor-pointer"
+						>
 							<div className="space-y-4">
 								<div className="w-12 h-12 rounded-xl flex items-center justify-center bg-primary/10 text-primary group-hover:scale-110 transition-transform duration-300">
 									<TrainFront className="w-6 h-6" />
@@ -88,17 +91,17 @@ export default async function HomePage() {
 									<p className="text-sm text-muted-foreground leading-relaxed">{t("fMetroDesc")}</p>
 								</div>
 							</div>
-							<Link
-								href="/metro"
-								className="mt-6 inline-flex items-center gap-1.5 text-xs font-bold text-primary group-hover:translate-x-1 transition-all"
-							>
+							<div className="mt-6 inline-flex items-center gap-1.5 text-xs font-bold text-primary group-hover:translate-x-1 transition-all">
 								{t("fMetroCta")}
 								<ArrowRight className="w-3.5 h-3.5" />
-							</Link>
-						</div>
+							</div>
+						</Link>
 
 						{/* Bus Operators Feature */}
-						<div className="border border-border bg-card text-card-foreground rounded-2xl p-6 transition-all duration-300 hover:shadow-xl hover:border-primary/30 flex flex-col justify-between group">
+						<Link
+							href="/buses"
+							className="border border-border bg-card text-card-foreground rounded-2xl p-6 transition-all duration-300 hover:shadow-xl hover:border-primary/30 flex flex-col justify-between group cursor-pointer"
+						>
 							<div className="space-y-4">
 								<div className="w-12 h-12 rounded-xl flex items-center justify-center bg-primary/10 text-primary group-hover:scale-110 transition-transform duration-300">
 									<Compass className="w-6 h-6" />
@@ -110,17 +113,17 @@ export default async function HomePage() {
 									<p className="text-sm text-muted-foreground leading-relaxed">{t("fBusDesc")}</p>
 								</div>
 							</div>
-							<Link
-								href="/buses"
-								className="mt-6 inline-flex items-center gap-1.5 text-xs font-bold text-primary group-hover:translate-x-1 transition-all"
-							>
+							<div className="mt-6 inline-flex items-center gap-1.5 text-xs font-bold text-primary group-hover:translate-x-1 transition-all">
 								{t("fBusCta")}
 								<ArrowRight className="w-3.5 h-3.5" />
-							</Link>
-						</div>
+							</div>
+						</Link>
 
 						{/* Fare Calculator Feature */}
-						<div className="border border-border bg-card text-card-foreground rounded-2xl p-6 transition-all duration-300 hover:shadow-xl hover:border-primary/30 flex flex-col justify-between group">
+						<Link
+							href="/fare-calculator"
+							className="border border-border bg-card text-card-foreground rounded-2xl p-6 transition-all duration-300 hover:shadow-xl hover:border-primary/30 flex flex-col justify-between group cursor-pointer"
+						>
 							<div className="space-y-4">
 								<div className="w-12 h-12 rounded-xl flex items-center justify-center bg-primary/10 text-primary group-hover:scale-110 transition-transform duration-300">
 									<MapPin className="w-6 h-6" />
@@ -132,14 +135,11 @@ export default async function HomePage() {
 									<p className="text-sm text-muted-foreground leading-relaxed">{t("fFareDesc")}</p>
 								</div>
 							</div>
-							<Link
-								href="/fare-calculator"
-								className="mt-6 inline-flex items-center gap-1.5 text-xs font-bold text-primary group-hover:translate-x-1 transition-all"
-							>
+							<div className="mt-6 inline-flex items-center gap-1.5 text-xs font-bold text-primary group-hover:translate-x-1 transition-all">
 								{t("fFareCta")}
 								<ArrowRight className="w-3.5 h-3.5" />
-							</Link>
-						</div>
+							</div>
+						</Link>
 					</div>
 				</div>
 			</section>
