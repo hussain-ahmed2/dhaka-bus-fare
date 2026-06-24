@@ -140,9 +140,12 @@
         { "minStations": 1, "maxStations": 2, "fare": 20 },
         { "minStations": 3, "maxStations": 4, "fare": 30 },
         { "minStations": 5, "maxStations": 6, "fare": 40 },
-        { "minStations": 7, "maxStations": 9, "fare": 60 },
-        { "minStations": 10, "maxStations": 12, "fare": 80 },
-        { "minStations": 13, "maxStations": 15, "fare": 100 }
+        { "minStations": 7, "maxStations": 7, "fare": 50 },
+        { "minStations": 8, "maxStations": 9, "fare": 60 },
+        { "minStations": 10, "maxStations": 10, "fare": 70 },
+        { "minStations": 11, "maxStations": 12, "fare": 80 },
+        { "minStations": 13, "maxStations": 14, "fare": 90 },
+        { "minStations": 15, "maxStations": 15, "fare": 100 }
       ],
       "cardDiscount": 0.10
     }
