@@ -26,7 +26,18 @@
     "popularRoutes": "Popular Routes",
     "viewAllRoutes": "View All Routes",
     "recentRoutes": "Recently Viewed Routes",
-    "clearHistory": "Clear History"
+    "clearHistory": "Clear History",
+    "featuresTitle": "Explore App Features",
+    "featuresSubtitle": "Everything you need to navigate public transit in Dhaka in one single place.",
+    "fMetroTitle": "Dhaka Metro Live Tracker",
+    "fMetroDesc": "Real-time physics simulated train tracking, nearest station detection, walking directions, and fare calculations.",
+    "fMetroCta": "Open Live Metro Map",
+    "fBusTitle": "Bus Routes & Operators",
+    "fBusDesc": "Browse all city bus operators, operational timings, active routes, and full stop sequences.",
+    "fBusCta": "Browse Buses",
+    "fFareTitle": "Fare Calculator & Chart",
+    "fFareDesc": "Calculate direct or transfer-connecting bus fares and view full stop-to-stop fare matrix charts.",
+    "fFareCta": "Calculate Fares"
   },
   "Navbar": {
     "brandTitle": "Dhaka Bus",

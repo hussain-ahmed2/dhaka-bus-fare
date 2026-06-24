@@ -5,7 +5,8 @@ import RecentlyViewedSection from "@/components/recently-viewed-wrapper";
 import { Separator } from "@/components/ui/separator";
 import { getTranslations, getLocale } from "next-intl/server";
 import { formatNumber } from "@/lib/utils";
-import { Bus } from "lucide-react";
+import { Bus, TrainFront, Compass, MapPin, ArrowRight } from "lucide-react";
+import { Link } from "@/i18n/routing";
 
 // Enable static generation with ISR (revalidate every 24 hours)
 export const revalidate = 86400;
@@ -61,10 +62,96 @@ export default async function HomePage() {
 				</div>
 			</section>
 
-			<Separator />
-
 			{/* ── Recently Viewed Routes ──────────────────────── */}
 			<RecentlyViewedSection />
+
+			{/* ── Features Section ───────────────────────────── */}
+			<section className="bg-muted/10 border-y border-border py-12">
+				<div className="container mx-auto px-4 sm:px-6 space-y-10">
+					<div className="text-center space-y-2">
+						<h2 className="text-3xl font-extrabold tracking-tight text-foreground">
+							{t("featuresTitle")}
+						</h2>
+						<p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
+							{t("featuresSubtitle")}
+						</p>
+					</div>
+
+					<div className="grid md:grid-cols-3 gap-6">
+						{/* Metro Map Feature */}
+						<div className="border border-border bg-card text-card-foreground rounded-2xl p-6 transition-all duration-300 hover:shadow-xl hover:border-primary/30 flex flex-col justify-between group">
+							<div className="space-y-4">
+								<div className="w-12 h-12 rounded-xl flex items-center justify-center bg-primary/10 text-primary group-hover:scale-110 transition-transform duration-300">
+									<TrainFront className="w-6 h-6" />
+								</div>
+								<div className="space-y-2">
+									<h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
+										{t("fMetroTitle")}
+									</h3>
+									<p className="text-sm text-muted-foreground leading-relaxed">
+										{t("fMetroDesc")}
+									</p>
+								</div>
+							</div>
+							<Link
+								href="/metro"
+								className="mt-6 inline-flex items-center gap-1.5 text-xs font-bold text-primary group-hover:translate-x-1 transition-all"
+							>
+								{t("fMetroCta")}
+								<ArrowRight className="w-3.5 h-3.5" />
+							</Link>
+						</div>
+
+						{/* Bus Operators Feature */}
+						<div className="border border-border bg-card text-card-foreground rounded-2xl p-6 transition-all duration-300 hover:shadow-xl hover:border-primary/30 flex flex-col justify-between group">
+							<div className="space-y-4">
+								<div className="w-12 h-12 rounded-xl flex items-center justify-center bg-primary/10 text-primary group-hover:scale-110 transition-transform duration-300">
+									<Compass className="w-6 h-6" />
+								</div>
+								<div className="space-y-2">
+									<h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
+										{t("fBusTitle")}
+									</h3>
+									<p className="text-sm text-muted-foreground leading-relaxed">
+										{t("fBusDesc")}
+									</p>
+								</div>
+							</div>
+							<Link
+								href="/buses"
+								className="mt-6 inline-flex items-center gap-1.5 text-xs font-bold text-primary group-hover:translate-x-1 transition-all"
+							>
+								{t("fBusCta")}
+								<ArrowRight className="w-3.5 h-3.5" />
+							</Link>
+						</div>
+
+						{/* Fare Calculator Feature */}
+						<div className="border border-border bg-card text-card-foreground rounded-2xl p-6 transition-all duration-300 hover:shadow-xl hover:border-primary/30 flex flex-col justify-between group">
+							<div className="space-y-4">
+								<div className="w-12 h-12 rounded-xl flex items-center justify-center bg-primary/10 text-primary group-hover:scale-110 transition-transform duration-300">
+									<MapPin className="w-6 h-6" />
+								</div>
+								<div className="space-y-2">
+									<h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
+										{t("fFareTitle")}
+									</h3>
+									<p className="text-sm text-muted-foreground leading-relaxed">
+										{t("fFareDesc")}
+									</p>
+								</div>
+							</div>
+							<Link
+								href="/fare-calculator"
+								className="mt-6 inline-flex items-center gap-1.5 text-xs font-bold text-primary group-hover:translate-x-1 transition-all"
+							>
+								{t("fFareCta")}
+								<ArrowRight className="w-3.5 h-3.5" />
+							</Link>
+						</div>
+					</div>
+				</div>
+			</section>
 
 			{/* ── Route Grid (Popular Routes) ─────────────────── */}
 			<section className="container mx-auto px-4 sm:px-6 py-10">

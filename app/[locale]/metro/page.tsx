@@ -7,6 +7,7 @@ import { formatNumber } from "@/lib/utils";
 import { getLocale } from "next-intl/server";
 import dynamic from "next/dynamic";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 const MetroFareCalculator = dynamic(() => import("@/components/metro-fare-calculator"), {
 	loading: () => <div className="h-[300px] w-full rounded-xl border border-border bg-muted/10 animate-pulse" />,
@@ -92,13 +93,15 @@ export default async function MetroPage() {
 
 					{/* CTA */}
 					<div className="flex justify-center pt-2">
-						<Link
-							href="/metro/map"
-							className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary-foreground text-primary font-bold text-sm hover:bg-primary-foreground/90 transition-all shadow-lg hover:shadow-xl hover:scale-105"
+						<Button
+							className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 h-11 text-sm sm:text-base px-6 shadow-md gap-2"
+							asChild
 						>
-							<TrainFront className="h-4 w-4" />
-							{t("openMap")}
-						</Link>
+							<Link href="/metro/map">
+								<TrainFront className="size-5 shrink-0" />
+								{t("openMap")}
+							</Link>
+						</Button>
 					</div>
 				</div>
 			</section>

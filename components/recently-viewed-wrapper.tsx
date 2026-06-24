@@ -2,10 +2,13 @@
 
 import dynamic from "next/dynamic";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Separator } from "@/components/ui/separator";
 
 function RecentlyViewedSkeleton() {
 	return (
-		<section className="container mx-auto px-4 sm:px-6 py-10 pb-0">
+		<>
+			<Separator />
+			<section className="container mx-auto px-4 sm:px-6 py-10">
 			<div className="space-y-4">
 				{/* Heading — same height as "h2 text-xl font-bold" */}
 				<Skeleton className="h-7 w-48" />
@@ -57,6 +60,7 @@ function RecentlyViewedSkeleton() {
 				</div>
 			</div>
 		</section>
+		</>
 	);
 }
 
