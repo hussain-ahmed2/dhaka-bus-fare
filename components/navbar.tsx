@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Bus, Map, Calculator, Table, Info } from "lucide-react";
+import { Bus, Map, Calculator, Table, Info, TrainFront } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import FareSettingsDialog from "@/components/fare-settings-dialog";
 import { useStore } from "@/hooks/store";
@@ -45,6 +45,12 @@ export default function Navbar() {
   };
 
   const navLinks = [
+    {
+      href: "/metro",
+      label: t("navMetro"),
+      mobileLabel: t("navMobileMetro"),
+      icon: TrainFront,
+    },
     {
       href: "/routes",
       label: t("navRoutes"),

@@ -1,0 +1,150 @@
+{
+  "lines": [
+    {
+      "id": "mrt-6",
+      "name": {
+        "en": "MRT Line-6",
+        "bn": "এমআরটি লাইন-৬"
+      },
+      "color": "#00A550",
+      "stations": [
+        {
+          "id": "uttara-north",
+          "name": { "en": "Uttara North", "bn": "উত্তরা উত্তর" },
+          "lat": 23.8693,
+          "lng": 90.3675,
+          "distanceFromStart": 0
+        },
+        {
+          "id": "uttara-center",
+          "name": { "en": "Uttara Center", "bn": "উত্তরা সেন্টার" },
+          "lat": 23.8598,
+          "lng": 90.3652,
+          "distanceFromStart": 0.96
+        },
+        {
+          "id": "uttara-south",
+          "name": { "en": "Uttara South", "bn": "উত্তরা দক্ষিণ" },
+          "lat": 23.8456,
+          "lng": 90.3631,
+          "distanceFromStart": 2.73
+        },
+        {
+          "id": "pallabi",
+          "name": { "en": "Pallabi", "bn": "পল্লবী" },
+          "lat": 23.8270,
+          "lng": 90.3669,
+          "distanceFromStart": 5.41
+        },
+        {
+          "id": "mirpur-11",
+          "name": { "en": "Mirpur 11", "bn": "মিরপুর ১১" },
+          "lat": 23.8197,
+          "lng": 90.3667,
+          "distanceFromStart": 6.59
+        },
+        {
+          "id": "mirpur-10",
+          "name": { "en": "Mirpur 10", "bn": "মিরপুর ১০" },
+          "lat": 23.8071,
+          "lng": 90.3681,
+          "distanceFromStart": 7.82
+        },
+        {
+          "id": "kazipara",
+          "name": { "en": "Kazipara", "bn": "কাজীপাড়া" },
+          "lat": 23.7997,
+          "lng": 90.3684,
+          "distanceFromStart": 8.82
+        },
+        {
+          "id": "shewrapara",
+          "name": { "en": "Shewrapara", "bn": "শেওড়াপাড়া" },
+          "lat": 23.7927,
+          "lng": 90.3675,
+          "distanceFromStart": 9.89
+        },
+        {
+          "id": "agargaon",
+          "name": { "en": "Agargaon", "bn": "আগারগাঁও" },
+          "lat": 23.7785,
+          "lng": 90.3787,
+          "distanceFromStart": 11.28
+        },
+        {
+          "id": "bijoy-sarani",
+          "name": { "en": "Bijoy Sarani", "bn": "বিজয় সরণি" },
+          "lat": 23.7672,
+          "lng": 90.3835,
+          "distanceFromStart": 12.82
+        },
+        {
+          "id": "farmgate",
+          "name": { "en": "Farmgate", "bn": "ফার্মগেট" },
+          "lat": 23.7568,
+          "lng": 90.3895,
+          "distanceFromStart": 13.95
+        },
+        {
+          "id": "karwan-bazar",
+          "name": { "en": "Karwan Bazar", "bn": "কারওয়ান বাজার" },
+          "lat": 23.7508,
+          "lng": 90.3935,
+          "distanceFromStart": 14.98
+        },
+        {
+          "id": "shahbag",
+          "name": { "en": "Shahbag", "bn": "শাহবাগ" },
+          "lat": 23.7395,
+          "lng": 90.3960,
+          "distanceFromStart": 16.55
+        },
+        {
+          "id": "dhaka-university",
+          "name": { "en": "Dhaka University", "bn": "ঢাকা বিশ্ববিদ্যালয়" },
+          "lat": 23.7317,
+          "lng": 90.3968,
+          "distanceFromStart": 17.40
+        },
+        {
+          "id": "bangladesh-secretariat",
+          "name": { "en": "Bangladesh Secretariat", "bn": "বাংলাদেশ সচিবালয়" },
+          "lat": 23.7300,
+          "lng": 90.4075,
+          "distanceFromStart": 18.80
+        },
+        {
+          "id": "motijheel",
+          "name": { "en": "Motijheel", "bn": "মতিঝিল" },
+          "lat": 23.7281,
+          "lng": 90.4191,
+          "distanceFromStart": 21.26
+        }
+      ],
+      "schedule": {
+        "weekday": { "start": "06:30", "end": "21:30" },
+        "friday": { "start": "15:00", "end": "22:10" },
+        "saturday": { "start": "07:00", "end": "21:30" }
+      },
+      "frequency": {
+        "peak": 6,
+        "offPeak": 10
+      },
+      "peakHours": [
+        { "start": "07:00", "end": "11:00" },
+        { "start": "16:00", "end": "20:00" }
+      ],
+      "travelTimeBetweenStations": 2.5,
+      "totalTravelTime": 38,
+      "fareSlabs": [
+        { "minStations": 1, "maxStations": 2, "fare": 20 },
+        { "minStations": 3, "maxStations": 4, "fare": 30 },
+        { "minStations": 5, "maxStations": 6, "fare": 40 },
+        { "minStations": 7, "maxStations": 9, "fare": 60 },
+        { "minStations": 10, "maxStations": 12, "fare": 80 },
+        { "minStations": 13, "maxStations": 15, "fare": 100 }
+      ],
+      "cardDiscount": 0.10
+    }
+  ]
+}

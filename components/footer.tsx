@@ -54,6 +54,14 @@ export default function Footer() {
 										{t("navChart")}
 									</Link>
 								</li>
+								<li>
+									<Link
+										href="/metro"
+										className="text-xs text-foreground/70 hover:text-primary transition-colors"
+									>
+										Metro Rail
+									</Link>
+								</li>
 							</ul>
 						</div>
 						<div className="space-y-4">

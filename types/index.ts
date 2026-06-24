@@ -37,3 +37,51 @@ export interface BusOperator {
   service_type: string;
 }
 
+// ─── Metro Rail Types ───────────────────────────────────
+export interface MetroStation {
+  id: string;
+  name: LocalizedText;
+  lat: number;
+  lng: number;
+  distanceFromStart: number;
+}
+
+export interface MetroFareSlab {
+  minStations: number;
+  maxStations: number;
+  fare: number;
+}
+
+export interface MetroSchedule {
+  start: string;
+  end: string;
+}
+
+export interface MetroLine {
+  id: string;
+  name: LocalizedText;
+  color: string;
+  stations: MetroStation[];
+  schedule: Record<string, MetroSchedule>;
+  frequency: { peak: number; offPeak: number };
+  peakHours: { start: string; end: string }[];
+  travelTimeBetweenStations: number;
+  totalTravelTime: number;
+  fareSlabs: MetroFareSlab[];
+  cardDiscount: number;
+}
+
+export interface SimulatedTrain {
+  id: string;
+  direction: "northbound" | "southbound";
+  lat: number;
+  lng: number;
+  fromStation: MetroStation;
+  toStation: MetroStation;
+  progress: number;
+}
+
+export interface MetroData {
+  lines: MetroLine[];
+}
+
