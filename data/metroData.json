@@ -13,112 +13,194 @@
           "name": { "en": "Uttara North", "bn": "উত্তরা উত্তর" },
           "lat": 23.8693,
           "lng": 90.3675,
-          "distanceFromStart": 0
+          "distanceFromStart": 0,
+          "segmentPath": [
+            [23.8693, 90.3675],
+            [23.8598, 90.3652]
+          ]
         },
         {
           "id": "uttara-center",
           "name": { "en": "Uttara Center", "bn": "উত্তরা সেন্টার" },
           "lat": 23.8598,
           "lng": 90.3652,
-          "distanceFromStart": 0.96
+          "distanceFromStart": 0.96,
+          "segmentPath": [
+            [23.8598, 90.3652],
+            [23.8456, 90.3631]
+          ]
         },
         {
           "id": "uttara-south",
           "name": { "en": "Uttara South", "bn": "উত্তরা দক্ষিণ" },
           "lat": 23.8456,
           "lng": 90.3631,
-          "distanceFromStart": 2.73
+          "distanceFromStart": 2.73,
+          "segmentPath": [
+            [23.8456, 90.3631],
+            [23.8340, 90.3615],
+            [23.8270, 90.3669]
+          ]
         },
         {
           "id": "pallabi",
           "name": { "en": "Pallabi", "bn": "পল্লবী" },
           "lat": 23.8270,
           "lng": 90.3669,
-          "distanceFromStart": 5.41
+          "distanceFromStart": 5.41,
+          "segmentPath": [
+            [23.8270, 90.3669],
+            [23.8197, 90.3667]
+          ]
         },
         {
           "id": "mirpur-11",
           "name": { "en": "Mirpur 11", "bn": "মিরপুর ১১" },
           "lat": 23.8197,
           "lng": 90.3667,
-          "distanceFromStart": 6.59
+          "distanceFromStart": 6.59,
+          "segmentPath": [
+            [23.8197, 90.3667],
+            [23.8071, 90.3681]
+          ]
         },
         {
           "id": "mirpur-10",
           "name": { "en": "Mirpur 10", "bn": "মিরপুর ১০" },
           "lat": 23.8071,
           "lng": 90.3681,
-          "distanceFromStart": 7.82
+          "distanceFromStart": 7.82,
+          "segmentPath": [
+            [23.8071, 90.3681],
+            [23.7997, 90.3684]
+          ]
         },
         {
           "id": "kazipara",
           "name": { "en": "Kazipara", "bn": "কাজীপাড়া" },
           "lat": 23.7997,
           "lng": 90.3684,
-          "distanceFromStart": 8.82
+          "distanceFromStart": 8.82,
+          "segmentPath": [
+            [23.7997, 90.3684],
+            [23.7927, 90.3675]
+          ]
         },
         {
           "id": "shewrapara",
           "name": { "en": "Shewrapara", "bn": "শেওড়াপাড়া" },
           "lat": 23.7927,
           "lng": 90.3675,
-          "distanceFromStart": 9.89
+          "distanceFromStart": 9.89,
+          "segmentPath": [
+            [23.7927, 90.3675],
+            [23.7845, 90.3690],
+            [23.7785, 90.3787]
+          ]
         },
         {
           "id": "agargaon",
           "name": { "en": "Agargaon", "bn": "আগারগাঁও" },
           "lat": 23.7785,
           "lng": 90.3787,
-          "distanceFromStart": 11.28
+          "distanceFromStart": 11.28,
+          "segmentPath": [
+            [23.7785, 90.3787],
+            [23.7745, 90.3800],
+            [23.7705, 90.3812],
+            [23.7685, 90.3822],
+            [23.7672, 90.3835]
+          ]
         },
         {
           "id": "bijoy-sarani",
           "name": { "en": "Bijoy Sarani", "bn": "বিজয় সরণি" },
           "lat": 23.7672,
           "lng": 90.3835,
-          "distanceFromStart": 12.82
+          "distanceFromStart": 12.82,
+          "segmentPath": [
+            [23.7672, 90.3835],
+            [23.7635, 90.3855],
+            [23.7568, 90.3895]
+          ]
         },
         {
           "id": "farmgate",
           "name": { "en": "Farmgate", "bn": "ফার্মগেট" },
           "lat": 23.7568,
           "lng": 90.3895,
-          "distanceFromStart": 13.95
+          "distanceFromStart": 13.95,
+          "segmentPath": [
+            [23.7568, 90.3895],
+            [23.7508, 90.3935]
+          ]
         },
         {
           "id": "karwan-bazar",
           "name": { "en": "Karwan Bazar", "bn": "কারওয়ান বাজার" },
           "lat": 23.7508,
           "lng": 90.3935,
-          "distanceFromStart": 14.98
+          "distanceFromStart": 14.98,
+          "segmentPath": [
+            [23.7508, 90.3935],
+            [23.7395, 90.3960]
+          ]
         },
         {
           "id": "shahbag",
           "name": { "en": "Shahbag", "bn": "শাহবাগ" },
           "lat": 23.7395,
           "lng": 90.3960,
-          "distanceFromStart": 16.55
+          "distanceFromStart": 16.55,
+          "segmentPath": [
+            [23.7395, 90.3960],
+            [23.7317, 90.3968]
+          ]
         },
         {
           "id": "dhaka-university",
           "name": { "en": "Dhaka University", "bn": "ঢাকা বিশ্ববিদ্যালয়" },
           "lat": 23.7317,
           "lng": 90.3968,
-          "distanceFromStart": 17.40
+          "distanceFromStart": 17.40,
+          "segmentPath": [
+            [23.7317, 90.3968],
+            [23.7285, 90.3975],
+            [23.7280, 90.4025],
+            [23.7300, 90.4075]
+          ]
         },
         {
           "id": "bangladesh-secretariat",
           "name": { "en": "Bangladesh Secretariat", "bn": "বাংলাদেশ সচিবালয়" },
           "lat": 23.7300,
           "lng": 90.4075,
-          "distanceFromStart": 18.80
+          "distanceFromStart": 18.80,
+          "segmentPath": [
+            [23.7300, 90.4075],
+            [23.7290, 90.4135],
+            [23.7281, 90.4191]
+          ]
         },
         {
           "id": "motijheel",
           "name": { "en": "Motijheel", "bn": "মতিঝিল" },
           "lat": 23.7281,
           "lng": 90.4191,
-          "distanceFromStart": 21.26
+          "distanceFromStart": 21.26,
+          "segmentPath": [
+            [23.7281, 90.4191],
+            [23.7290, 90.4245],
+            [23.7315, 90.4265]
+          ]
+        },
+        {
+          "id": "kamalapur",
+          "name": { "en": "Kamalapur", "bn": "কমলাপুর" },
+          "lat": 23.7315,
+          "lng": 90.4265,
+          "distanceFromStart": 22.81,
+          "underConstruction": true
         }
       ],
       "schedule": {

@@ -75,26 +75,26 @@ export default async function MetroPage() {
 						<Stat
 							value={formatNumber(stations.length, locale)}
 							label={t("stations")}
-							icon={<MapPin className="h-4 w-4" />}
+							icon={<MapPin className="h-6 w-6" />}
 						/>
 						<div className="h-8 w-px bg-primary-foreground/20" />
 						<Stat
 							value={`${formatNumber(line.totalTravelTime, locale)} ${t("min")}`}
 							label={t("travelTime")}
-							icon={<Clock className="h-4 w-4" />}
+							icon={<Clock className="h-6 w-6" />}
 						/>
 						<div className="h-8 w-px bg-primary-foreground/20" />
 						<Stat
 							value={`৳${formatNumber(20, locale)}-${formatNumber(100, locale)}`}
 							label={t("fareRange")}
-							icon={<Ticket className="h-4 w-4" />}
+							icon={<Ticket className="h-6 w-6" />}
 						/>
 					</div>
 
 					{/* CTA */}
 					<div className="flex justify-center pt-2">
 						<Button
-							className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 h-11 text-sm sm:text-base px-6 shadow-md gap-2"
+							className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 h-11 text-base font-semibold px-6 shadow-md gap-2.5"
 							asChild
 						>
 							<Link href="/metro/map">
@@ -173,7 +173,7 @@ function Stat({
 				{icon}
 				{value}
 			</div>
-			<div className="text-xs text-white/70 uppercase tracking-widest font-medium mt-0.5">
+			<div className="text-xs text-primary-foreground/70 uppercase tracking-widest font-medium mt-0.5">
 				{label}
 			</div>
 		</div>

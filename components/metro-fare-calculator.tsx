@@ -28,7 +28,7 @@ import { StopCombobox } from "@/components/stop-combobox";
 export default function MetroFareCalculator() {
 	const t = useTranslations("Metro");
 	const locale = useLocale();
-	const stations = getMetroStations();
+	const stations = getMetroStations().filter((s) => !s.underConstruction);
 
 	const [fromId, setFromId] = useState<string | null>(null);
 	const [toId, setToId] = useState<string | null>(null);
