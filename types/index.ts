@@ -44,6 +44,7 @@ export interface MetroStation {
   lat: number;
   lng: number;
   distanceFromStart: number;
+  underConstruction?: boolean;
 }
 
 export interface MetroFareSlab {

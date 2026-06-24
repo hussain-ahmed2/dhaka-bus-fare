@@ -119,6 +119,14 @@
           "lat": 23.7281,
           "lng": 90.4191,
           "distanceFromStart": 21.26
+        },
+        {
+          "id": "kamalapur",
+          "name": { "en": "Kamalapur", "bn": "কমলাপুর" },
+          "lat": 23.7315,
+          "lng": 90.4265,
+          "distanceFromStart": 22.81,
+          "underConstruction": true
         }
       ],
       "schedule": {

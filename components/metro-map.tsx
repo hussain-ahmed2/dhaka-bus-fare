@@ -420,18 +420,20 @@ export default function MetroMap() {
 
 				{/* Station Markers */}
 				{stations.map((station, idx) => {
-					const isTerminal = idx === 0 || idx === stations.length - 1;
+					const isUnderConstruction = !!station.underConstruction;
+					const isTerminal = (idx === 0 || idx === stations.length - 1) && !isUnderConstruction;
 					return (
 						<CircleMarker
 							key={station.id}
 							center={[station.lat, station.lng]}
-							radius={isTerminal ? 8 : 5}
+							radius={isUnderConstruction ? 5 : (isTerminal ? 8 : 5)}
 							bubblingMouseEvents={false}
 							pathOptions={{
-								fillColor: "#fff",
+								fillColor: isUnderConstruction ? "#F1F5F9" : "#fff",
 								fillOpacity: 1,
-								color: line.color,
-								weight: isTerminal ? 3 : 2,
+								color: isUnderConstruction ? "#94A3B8" : line.color,
+								weight: isUnderConstruction ? 2 : (isTerminal ? 3 : 2),
+								dashArray: isUnderConstruction ? "4, 4" : undefined,
 							}}
 							eventHandlers={{
 								click: (e) => {
@@ -449,8 +451,13 @@ export default function MetroMap() {
 								className="metro-tooltip"
 							>
 								<span className="flex items-center gap-1.5 text-[10px] font-bold">
-									<MapPin className="w-3.5 h-3.5 text-primary" />
+									<MapPin className={`w-3.5 h-3.5 ${isUnderConstruction ? "text-slate-400" : "text-primary"}`} />
 									{locale === "en" ? station.name.en : station.name.bn}
+									{isUnderConstruction && (
+										<span className="text-[8px] font-normal text-slate-400 border border-slate-200 bg-slate-50 px-1 rounded ml-1">
+											{t("underConstructionShort")}
+										</span>
+									)}
 								</span>
 							</Tooltip>
 						</CircleMarker>
@@ -458,7 +465,7 @@ export default function MetroMap() {
 				})}
 
 				{/* Animated Trains */}
-				<TrainsLayer trains={trains} stations={stations} />
+				<TrainsLayer trains={trains} stations={stations.filter((s) => !s.underConstruction)} />
 
 				{/* User Location */}
 				{userLocation && (
@@ -557,10 +564,17 @@ export default function MetroMap() {
 							{/* Header */}
 							<div className="flex items-start justify-between">
 								<div className="space-y-0.5">
-									<span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold bg-primary/10 text-primary border border-primary/20">
-										<TrainFront className="w-2.5 h-2.5" />
-										{t("mrtLine6")}
-									</span>
+									<div className="flex flex-wrap items-center gap-1.5">
+										<span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold bg-primary/10 text-primary border border-primary/20">
+											<TrainFront className="w-2.5 h-2.5" />
+											{t("mrtLine6")}
+										</span>
+										{selectedStation.underConstruction && (
+											<span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold bg-amber-500/10 text-amber-600 border border-amber-500/20">
+												{t("underConstruction")}
+											</span>
+										)}
+									</div>
 									<h3 className="text-base font-bold text-foreground">
 										{locale === "en" ? selectedStation.name.en : selectedStation.name.bn}
 									</h3>
@@ -589,10 +603,10 @@ export default function MetroMap() {
 
 								<div className="bg-muted/30 border border-border/50 rounded-lg p-2 space-y-0.5">
 									<p className="text-[9px] text-muted-foreground font-semibold uppercase">Next Train</p>
-									<p className="font-bold text-primary">
-										{operating && nextTrain > 0 ? t("nextTrain", { minutes: formatNumber(nextTrain, locale) }) : "—"}
+									<p className={`font-bold ${selectedStation.underConstruction ? "text-muted-foreground" : "text-primary"}`}>
+										{selectedStation.underConstruction ? t("notOperational") : (operating && nextTrain > 0 ? t("nextTrain", { minutes: formatNumber(nextTrain, locale) }) : "—")}
 									</p>
-									<p className="text-[8px] text-muted-foreground">based on schedule</p>
+									<p className="text-[8px] text-muted-foreground">{selectedStation.underConstruction ? t("status") : "based on schedule"}</p>
 								</div>
 							</div>
 
@@ -602,9 +616,12 @@ export default function MetroMap() {
 									{(() => {
 										const dist = haversineDistance(userLocation.lat, userLocation.lng, selectedStation.lat, selectedStation.lng);
 										const walkingMin = Math.ceil((dist / 5) * 60);
-										const fareVal = calculateMetroFare(findNearestStation(userLocation.lat, userLocation.lng).station.id, selectedStation.id);
-										const cardFareVal = getMetroFareWithCard(fareVal);
 										const isCurrent = findNearestStation(userLocation.lat, userLocation.lng).station.id === selectedStation.id;
+
+										const isUnderConstruction = selectedStation.underConstruction;
+										const nearestOperationalId = findNearestStation(userLocation.lat, userLocation.lng).station.id;
+										const fareVal = isUnderConstruction ? 0 : calculateMetroFare(nearestOperationalId, selectedStation.id);
+										const cardFareVal = getMetroFareWithCard(fareVal);
 
 										return (
 											<>
@@ -620,7 +637,7 @@ export default function MetroMap() {
 													)}
 												</div>
 
-												{!isCurrent && fareVal > 0 && (
+												{!isUnderConstruction && !isCurrent && fareVal > 0 && (
 													<div className="flex items-center justify-between pt-1.5 border-t border-primary/10 text-xs">
 														<span className="text-[10px] text-muted-foreground font-medium">{t("fareFromLocation")}</span>
 														<div className="flex items-center gap-1.5 font-bold">

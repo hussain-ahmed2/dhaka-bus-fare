@@ -7,7 +7,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { getMetroStations, getMetroLine } from "@/lib/metroData";
+import { getMetroStations, getMetroLine, calculateMetroFare } from "@/lib/metroData";
 import { formatNumber } from "@/lib/utils";
 import { useTranslations, useLocale } from "next-intl";
 import { TrainFront } from "lucide-react";
@@ -15,23 +15,16 @@ import { TrainFront } from "lucide-react";
 export default function MetroFareChart() {
 	const t = useTranslations("Metro");
 	const locale = useLocale();
-	const stations = getMetroStations();
+	const stations = getMetroStations().filter((s) => !s.underConstruction);
 	const line = getMetroLine();
 
 	const fareMatrix = useMemo(() => {
-		return stations.map((_, fromIdx) =>
-			stations.map((_, toIdx) => {
-				const stationsTraveled = Math.abs(toIdx - fromIdx);
-				if (stationsTraveled === 0) return 0;
-				for (const slab of line.fareSlabs) {
-					if (stationsTraveled >= slab.minStations && stationsTraveled <= slab.maxStations) {
-						return slab.fare;
-					}
-				}
-				return line.fareSlabs[line.fareSlabs.length - 1].fare;
+		return stations.map((fromStation) =>
+			stations.map((toStation) => {
+				return calculateMetroFare(fromStation.id, toStation.id);
 			})
 		);
-	}, [stations, line.fareSlabs]);
+	}, [stations]);
 
 	const getFareColor = (fare: number) => {
 		if (fare === 0) return "bg-muted/30 text-muted-foreground/50";
@@ -99,7 +92,10 @@ export default function MetroFareChart() {
 								key={slab.fare}
 								className={`px-2 py-0.5 rounded-full ${getFareColor(slab.fare)}`}
 							>
-								{slab.minStations}-{slab.maxStations} stations: ৳{formatNumber(slab.fare, locale)}
+								{slab.minStations === slab.maxStations 
+									? t("stationsCount", { count: slab.minStations }) 
+									: `${formatNumber(slab.minStations, locale)} - ${t("stationsCount", { count: slab.maxStations })}`
+								}: ৳{formatNumber(slab.fare, locale)}
 							</span>
 						))}
 					</div>

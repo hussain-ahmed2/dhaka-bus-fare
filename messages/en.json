@@ -289,7 +289,11 @@
     "mapTrackerTitle": "Live Train Tracker Map",
     "mapTrackerDesc": "Track trains in real-time, view live ETAs, and check next train schedules with GPS tracking.",
     "stationsDirectory": "Stations & Route Timeline",
-    "stationsDirectoryDesc": "Sequence of the 16 active stations along MRT Line-6. Click any station to track it on the map.",
+    "stationsDirectoryDesc": "Select any station to view its live status and location on the interactive map.",
+    "underConstructionShort": "U/C",
+    "underConstruction": "Under Construction",
+    "notOperational": "Not Operational",
+    "status": "Status",
     "terminus": "Terminus"
   }
 }
