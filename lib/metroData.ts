@@ -145,25 +145,104 @@ export function isPeakHour(now: Date): boolean {
 	});
 }
 
+/**
+ * Returns the headway in minutes based on elapsed time since service start.
+ * Using official DMTCL June 2026 data.
+ */
+export function getHeadwayAtMinutes(
+	minutesSinceStart: number,
+	dayType: "weekday" | "friday" | "saturday"
+): number {
+	if (dayType === "friday") {
+		// Friday operates on a constant 10 minutes frequency
+		return 10;
+	}
+
+	if (dayType === "weekday") {
+		// Weekday start is 06:30. Absolute minutes since midnight = 390 + minutesSinceStart.
+		const absMins = 390 + minutesSinceStart;
+
+		if (absMins < 430) return 20;      // 06:30 - 07:10 AM (20 min)
+		if (absMins < 450) return 10;      // 07:11 - 07:30 AM (10 min)
+		if (absMins < 490) return 8;       // 07:31 - 08:10 AM (8 min)
+		if (absMins < 590) return 6;       // 08:11 - 09:50 AM (6 min Morning Peak)
+		if (absMins < 980) return 8;       // 09:51 AM - 04:20 PM (8 min Off-Peak Daytime)
+		if (absMins < 1158) return 6;      // 04:21 PM - 07:18 PM (6 min Afternoon Peak)
+		if (absMins < 1198) return 8;      // 07:19 - 07:58 PM (8 min)
+		if (absMins < 1260) return 10;     // 07:59 - 09:00 PM (10 min)
+		if (absMins < 1290) return 15;     // 09:01 - 09:30 PM (15 min)
+		return 20;                         // 09:31 PM onwards (20 min)
+	}
+
+	// Saturday start is 07:00. Absolute minutes since midnight = 420 + minutesSinceStart.
+	const absMins = 420 + minutesSinceStart;
+	if (absMins < 450) return 10;      // 07:00 - 07:30 AM (10 min)
+	if (absMins < 490) return 8;       // 07:31 - 08:10 AM (8 min)
+	if (absMins < 590) return 6;       // 08:11 - 09:50 AM (6 min Morning Peak)
+	if (absMins < 980) return 8;       // 09:51 AM - 04:20 PM (8 min Off-Peak Daytime)
+	if (absMins < 1158) return 6;      // 04:21 PM - 07:18 PM (6 min Afternoon Peak)
+	if (absMins < 1198) return 8;      // 07:19 - 07:58 PM (8 min)
+	if (absMins < 1260) return 10;     // 07:59 - 09:00 PM (10 min)
+	if (absMins < 1290) return 15;     // 09:01 - 09:30 PM (15 min)
+	return 20;                         // 09:31 PM onwards (20 min)
+}
+
+/**
+ * Returns a list of all scheduled departure offsets (in minutes since start of service)
+ * for a given service duration.
+ */
+export function getDeparturesForDay(
+	dayType: "weekday" | "friday" | "saturday",
+	totalDurationMinutes: number
+): number[] {
+	const departures: number[] = [];
+	let t = 0;
+	departures.push(t);
+
+	while (t < totalDurationMinutes) {
+		const headway = getHeadwayAtMinutes(t, dayType);
+		t += headway;
+		if (t <= totalDurationMinutes) {
+			departures.push(t);
+		}
+	}
+	return departures;
+}
+
 export function getCurrentFrequency(now: Date): number {
-	const line = getMetroLine();
-	return isPeakHour(now) ? line.frequency.peak : line.frequency.offPeak;
+	const dayType = getDayType(now);
+	const schedule = getMetroSchedule(now);
+	if (!schedule) return 10;
+	const serviceStart = parseTime(schedule.start);
+	const currentMinutes = now.getHours() * 60 + now.getMinutes();
+	const elapsed = currentMinutes - serviceStart;
+	if (elapsed < 0) return 10;
+	return getHeadwayAtMinutes(elapsed, dayType);
 }
 
 export function getNextTrainMinutes(now: Date): number {
+	const schedule = getMetroSchedule(now);
+	if (!schedule) return -1;
+	const serviceStart = parseTime(schedule.start);
+	const serviceEnd = parseTime(schedule.end);
+	const currentMinutes = now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60;
+
 	if (!isMetroOperating(now)) {
 		// Calculate minutes until next opening
-		const schedule = getMetroSchedule(now);
-		if (!schedule) return -1;
-		const currentMinutes = now.getHours() * 60 + now.getMinutes();
-		const start = parseTime(schedule.start);
-		if (currentMinutes < start) return start - currentMinutes;
+		if (currentMinutes < serviceStart) return Math.ceil(serviceStart - currentMinutes);
 		return -1; // Service ended for today
 	}
-	const freq = getCurrentFrequency(now);
-	const minutesPastHour = now.getMinutes();
-	const minutesSinceLastTrain = minutesPastHour % freq;
-	return freq - minutesSinceLastTrain;
+
+	const dayType = getDayType(now);
+	const totalDuration = serviceEnd - serviceStart;
+	const departures = getDeparturesForDay(dayType, totalDuration);
+	const elapsed = currentMinutes - serviceStart;
+
+	// Find the next scheduled departure
+	const nextDeparture = departures.find((dep) => dep > elapsed);
+	if (nextDeparture === undefined) return -1; // No more trains today
+
+	return Math.ceil(nextDeparture - elapsed);
 }
 
 // ─── Track Path Interpolation & Coordinates ─────────────
@@ -226,7 +305,6 @@ export function simulateTrainPositions(now: Date): SimulatedTrain[] {
 	const line = getMetroLine();
 	const stations = line.stations.filter((s) => !s.underConstruction);
 	const N = stations.length;
-	const freq = getCurrentFrequency(now);
 
 	const currentMinutes = now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60;
 	const schedule = getMetroSchedule(now);
@@ -236,8 +314,14 @@ export function simulateTrainPositions(now: Date): SimulatedTrain[] {
 	const elapsed = currentMinutes - serviceStart;
 	if (elapsed < 0) return [];
 
+	const dayType = getDayType(now);
+	const serviceEnd = parseTime(schedule.end);
+	const totalDuration = serviceEnd - serviceStart;
+
 	// Timings and cycle configuration
-	const dwellTime = 40 / 60; // 40 seconds dwell time per intermediate station
+	// Dwell time: 45s during peak hours (higher passenger volume), 30s during off-peak hours
+	const isPeak = isPeakHour(now);
+	const dwellTime = (isPeak ? 45 : 30) / 60;
 	const oneWayTime = line.totalTravelTime; // 38 mins
 	const turnaroundTime = 7; // 7 minutes turnaround at each terminus
 	const roundTripTime = (oneWayTime + turnaroundTime) * 2; // 90 minutes total
@@ -280,14 +364,11 @@ export function simulateTrainPositions(now: Date): SimulatedTrain[] {
 		}
 	}
 
+	const departures = getDeparturesForDay(dayType, totalDuration);
 	const trains: SimulatedTrain[] = [];
-	const totalTrainsDispatched = Math.floor(elapsed / freq) + 1;
 
-	// Only process active departures in the last roundTripTime
-	const startTrainIdx = Math.max(0, Math.floor((elapsed - roundTripTime) / freq));
-
-	for (let i = startTrainIdx; i < totalTrainsDispatched; i++) {
-		const departureTime = i * freq; // departure from service origin
+	for (let i = 0; i < departures.length; i++) {
+		const departureTime = departures[i]; // departure from service origin
 		const timeSinceDeparture = elapsed - departureTime;
 
 		// If the train hasn't started yet, or has finished its cycle
