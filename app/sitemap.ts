@@ -5,8 +5,8 @@ const BASE_URL = "https://dhakabusfare.vercel.app";
 
 // Use a pinned date — avoids unnecessary re-crawl on every deploy.
 // Update this when content actually changes.
-const STATIC_LAST_MODIFIED = new Date("2026-06-21");
-const ROUTE_LAST_MODIFIED = new Date("2026-06-01");
+const STATIC_LAST_MODIFIED = new Date("2026-07-01");
+const ROUTE_LAST_MODIFIED = new Date("2026-07-01");
 
 type SitemapEntry = MetadataRoute.Sitemap[number];
 
