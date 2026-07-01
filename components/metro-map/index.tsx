@@ -1,25 +1,29 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { MapContainer, TileLayer, Polyline, CircleMarker, Marker, Tooltip, Circle } from "react-leaflet";
+import { useState, useEffect, useRef } from "react";
+import { MapContainer, TileLayer, Polyline, CircleMarker, Marker, Tooltip, Circle, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import {
 	getMetroLine,
 	getMetroStations,
 	simulateTrainPositions,
+	haversineDistance,
 	isMetroOperating,
 	getCurrentFrequency,
 	getNextTrainMinutes,
 	findNearestStation,
 	getMetroLineCoords,
 } from "@/lib/metroData";
-import type { SimulatedTrain, MetroStation } from "@/types";
+import type { MetroStation, SimulatedTrain } from "@/types";
+import { useMetroTrains } from "@/hooks/useMetroTrains";
+import type { UnifiedTrain } from "./trains-layer";
 import { useTranslations, useLocale } from "next-intl";
 import { AnimatePresence } from "motion/react";
-import { MapPin } from "lucide-react";
+import { MapPin, Navigation, Loader2 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useRouter, usePathname } from "@/i18n/routing";
+import { createClient } from "@/utils/supabase/client";
 
 // Sub-components
 import { ZoomButtons } from "./zoom-buttons";
@@ -45,6 +49,18 @@ const userLocationIcon = L.divIcon({
 	iconAnchor: [8, 8],
 });
 
+function MapFollowUser({ userLocation, isTracking }: { userLocation: {lat: number, lng: number} | null, isTracking: boolean }) {
+	const map = useMap();
+	
+	useEffect(() => {
+		if (isTracking && userLocation) {
+			map.setView([userLocation.lat, userLocation.lng], 15, { animate: true });
+		}
+	}, [isTracking, userLocation, map]);
+	
+	return null;
+}
+
 export default function MetroMap() {
 	const t = useTranslations("Metro");
 	const locale = useLocale();
@@ -54,12 +70,18 @@ export default function MetroMap() {
 	const router = useRouter();
 	const pathname = usePathname();
 
-	const [trains, setTrains] = useState<SimulatedTrain[]>([]);
-	const [userLocation, setUserLocation] = useState<{ lat: number; lng: number; accuracy: number } | null>(null);
+	const liveTrains = useMetroTrains();
+	const [simulatedTrains, setSimulatedTrains] = useState<SimulatedTrain[]>([]);
+	const [userLocation, setUserLocation] = useState<{ lat: number; lng: number; accuracy: number; speed?: number; heading?: number } | null>(null);
 	const [selectedStation, setSelectedStation] = useState<MetroStation | null>(null);
 	const [locationDenied, setLocationDenied] = useState(false);
 	const [now, setNow] = useState(new Date());
 	const [isDark, setIsDark] = useState(false);
+	
+	const [isTracking, setIsTracking] = useState(false);
+	const [trackingError, setTrackingError] = useState<string | null>(null);
+	const [sessionId] = useState(() => crypto.randomUUID());
+	const supabase = createClient();
 
 	// Sync state from query parameters (Single Source of Truth)
 	useEffect(() => {
@@ -118,7 +140,7 @@ export default function MetroMap() {
 		const updatePositions = () => {
 			const currentTime = new Date();
 			setNow(currentTime);
-			setTrains(simulateTrainPositions(currentTime));
+			setSimulatedTrains(simulateTrainPositions(currentTime));
 		};
 		updatePositions();
 
@@ -140,13 +162,18 @@ export default function MetroMap() {
 					lat: pos.coords.latitude,
 					lng: pos.coords.longitude,
 					accuracy: pos.coords.accuracy,
+					speed: pos.coords.speed || 0,
+					heading: pos.coords.heading || 0
 				});
 				setLocationDenied(false);
 			},
-			() => {
-				setLocationDenied(true);
+			(error) => {
+				if (error.code === error.PERMISSION_DENIED) {
+					setLocationDenied(true);
+				}
+				// Ignore timeout or position unavailable, maybe we get it later
 			},
-			{ enableHighAccuracy: true, maximumAge: 10000, timeout: 15000 },
+			{ enableHighAccuracy: false, maximumAge: 10000, timeout: 10000 },
 		);
 
 		return () => navigator.geolocation.clearWatch(watchId);
@@ -156,6 +183,95 @@ export default function MetroMap() {
 	const operating = isMetroOperating(now);
 	const frequency = getCurrentFrequency(now);
 	const nextTrain = getNextTrainMinutes(now);
+
+	// ── Realtime Tracking DB Push ──────────────────────────
+	const lastPushRef = useRef<number>(0);
+	useEffect(() => {
+		if (isTracking && userLocation) {
+			const nowMs = Date.now();
+			// Push at most every 5 seconds
+			if (nowMs - lastPushRef.current > 5000) {
+				lastPushRef.current = nowMs;
+				supabase.from('raw_user_locations').insert({
+					session_id: sessionId,
+					location: `POINT(${userLocation.lng} ${userLocation.lat})`,
+					speed: userLocation.speed || 0,
+					heading: userLocation.heading || 0,
+					is_on_train: true
+				}).then(({ error }) => {
+					if (error) console.error("Error pushing location:", error);
+				});
+			}
+		}
+	}, [isTracking, userLocation, sessionId, supabase]);
+
+	// ── Merge Live and Simulated Trains ──────────────────
+	const mergedTrains: UnifiedTrain[] = [];
+	
+	// Add all live trains first
+	for (const live of liveTrains) {
+		mergedTrains.push({
+			id: live.id,
+			lat: live.lat,
+			lng: live.lng,
+			heading: live.direction, // direction is a number (heading) in TrainLocation
+			isLive: true
+		});
+	}
+
+	// Add simulated trains only if they are not within 0.5km of ANY live train
+	for (const sim of simulatedTrains) {
+		let isNearLive = false;
+		for (const live of liveTrains) {
+			const dist = haversineDistance(sim.lat, sim.lng, live.lat, live.lng);
+			if (dist < 0.5) {
+				isNearLive = true;
+				break;
+			}
+		}
+
+		if (!isNearLive) {
+			// Calculate heading for simulated train
+			const dy = sim.toStation.lat - sim.fromStation.lat;
+			const dx = sim.toStation.lng - sim.fromStation.lng;
+			const angleRad = Math.atan2(dy, dx);
+			const angleDeg = (angleRad * 180) / Math.PI;
+			const heading = (90 - angleDeg + 360) % 360;
+
+			mergedTrains.push({
+				id: sim.id,
+				lat: sim.lat,
+				lng: sim.lng,
+				heading,
+				isLive: false
+			});
+		}
+	}
+
+	const toggleTracking = () => {
+		if (isTracking) {
+			setIsTracking(false);
+			return;
+		}
+		if (!userLocation || !nearest) return;
+
+		// Verify distance <= 1km
+		if (nearest.distance > 1) {
+			setTrackingError(t("tooFarToTrack"));
+			setTimeout(() => setTrackingError(null), 5000);
+			return;
+		}
+
+		setIsTracking(true);
+	};
+
+	const handleAllowLocation = () => {
+		// Just re-trigger the geolocate logic by clearing location denied
+		setLocationDenied(false);
+		navigator.geolocation.getCurrentPosition(() => {}, () => {
+			setLocationDenied(true);
+		});
+	};
 
 	return (
 		<div className="relative w-full h-full">
@@ -212,6 +328,9 @@ export default function MetroMap() {
 
 				{/* Map Event Handlers */}
 				<MapEvents onMapClick={() => handleStationClick(null)} />
+				<MapFollowUser userLocation={userLocation} isTracking={isTracking} />
+
+				{/* Map tiles logic */}
 				<MapRecenter selectedStation={selectedStation} />
 
 				{/* Custom Zoom Buttons */}
@@ -289,7 +408,7 @@ export default function MetroMap() {
 				})}
 
 				{/* Animated Trains */}
-				<TrainsLayer trains={trains} stations={stations.filter((s) => !s.underConstruction)} />
+				<TrainsLayer trains={mergedTrains} />
 
 				{/* User Location */}
 				{userLocation && (
@@ -310,7 +429,7 @@ export default function MetroMap() {
 			</MapContainer>
 
 			{/* Floating Status Bar */}
-			<StatusBar operating={operating} frequency={frequency} nextTrain={nextTrain} trainsCount={trains.length} />
+			<StatusBar operating={operating} frequency={frequency} nextTrain={nextTrain} trainsCount={mergedTrains.length} />
 
 			{/* Nearest Station Card */}
 			{nearest && userLocation && !selectedStation && <NearestStationCard nearest={nearest} />}
@@ -327,6 +446,50 @@ export default function MetroMap() {
 					/>
 				)}
 			</AnimatePresence>
+
+			{/* Track Journey Toggle */}
+			{userLocation && (
+				<div className="absolute top-24 right-3 z-1000">
+					<button
+						onClick={toggleTracking}
+						className={`flex items-center gap-2 px-4 py-2 rounded-full font-bold shadow-lg transition-all ${
+							isTracking 
+								? 'bg-emerald-500 text-white animate-pulse'
+								: 'bg-white text-primary border-2 border-primary hover:bg-primary/5'
+						}`}
+					>
+						{isTracking ? (
+							<>
+								<Loader2 className="h-4 w-4 animate-spin" />
+								{t('trackingActive')}
+							</>
+						) : (
+							<>
+								<Navigation className="h-4 w-4" />
+								{t('trackJourney')}
+							</>
+						)}
+					</button>
+					{trackingError && (
+						<div className="absolute top-full mt-2 right-0 w-64 bg-destructive text-destructive-foreground text-xs font-semibold p-2 rounded-lg shadow-xl text-right animate-in fade-in slide-in-from-top-2">
+							{trackingError}
+						</div>
+					)}
+				</div>
+			)}
+
+			{/* Share Location Banner (if location is not yet available and not explicitly denied) */}
+			{!userLocation && !locationDenied && (
+				<div className="absolute top-4 left-1/2 -translate-x-1/2 w-[90%] max-w-sm z-1000 pointer-events-none">
+					<div className="pointer-events-auto bg-primary text-primary-foreground rounded-xl shadow-2xl p-4 text-center animate-in slide-in-from-top-4 fade-in">
+						<MapPin className="h-6 w-6 mx-auto mb-2 opacity-80" />
+						<p className="text-sm font-semibold mb-3">{t("shareLocationBanner")}</p>
+						<button onClick={handleAllowLocation} className="bg-white text-primary text-sm font-bold px-4 py-2 rounded-full shadow hover:bg-white/90 transition-colors">
+							{t("allowLocation")}
+						</button>
+					</div>
+				</div>
+			)}
 
 			{/* Location Denied Message */}
 			{locationDenied && !userLocation && (

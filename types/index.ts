@@ -6,6 +6,8 @@ export interface LocalizedText {
 export interface Stop {
   name: LocalizedText;
   distance: number;
+  lat?: number;
+  lng?: number;
 }
 
 export interface Route {

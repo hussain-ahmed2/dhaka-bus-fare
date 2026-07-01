@@ -5,12 +5,14 @@ import { Badge } from "@/components/ui/badge";
 import type { Route } from "@/types";
 import { useTranslations, useLocale } from "next-intl";
 import { formatNumber } from "@/lib/utils";
+import SaveRouteButton from "./save-route-button";
 
 interface RouteHeroProps {
   route: Route;
+  slug: string;
 }
 
-export default function RouteHero({ route }: RouteHeroProps) {
+export default function RouteHero({ route, slug }: RouteHeroProps) {
   const t = useTranslations("Route");
   const locale = useLocale();
 
@@ -33,18 +35,21 @@ export default function RouteHero({ route }: RouteHeroProps) {
       </div>
 
       <div className="relative container mx-auto px-4 sm:px-6 py-10 space-y-5">
-        {/* Back button */}
-        <Button
-          variant="ghost"
-          size="sm"
-          asChild
-          className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10 -ml-1"
-        >
-          <Link href="/">
-            <ChevronLeft className="h-4 w-4 mr-1" />
-            {t("back")}
-          </Link>
-        </Button>
+        <div className="flex items-center justify-between">
+          <Button
+            variant="ghost"
+            size="sm"
+            asChild
+            className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10 -ml-1"
+          >
+            <Link href="/">
+              <ChevronLeft className="h-4 w-4 mr-1" />
+              {t("back")}
+            </Link>
+          </Button>
+
+          <SaveRouteButton routeId={slug} routeType="bus" />
+        </div>
 
         {/* Code + name */}
         <div className="space-y-2">
