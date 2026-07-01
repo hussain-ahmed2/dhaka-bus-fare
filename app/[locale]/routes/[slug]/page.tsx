@@ -43,7 +43,7 @@ export default function RouteDetailPage({ params }: { params: Promise<{ slug: st
 
 	return (
 		<main className="min-h-screen">
-			<RouteHero route={route} />
+			<RouteHero route={route} slug={slug} />
 
 			<div className="container mx-auto px-4 sm:px-6 py-10">
 				<div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
