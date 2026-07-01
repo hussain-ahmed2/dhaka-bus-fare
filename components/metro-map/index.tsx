@@ -449,7 +449,7 @@ export default function MetroMap() {
 
 			{/* Track Journey Toggle */}
 			{userLocation && (
-				<div className="absolute top-24 right-3 z-[1000]">
+				<div className="absolute top-24 right-3 z-1000">
 					<button
 						onClick={toggleTracking}
 						className={`flex items-center gap-2 px-4 py-2 rounded-full font-bold shadow-lg transition-all ${
@@ -480,7 +480,7 @@ export default function MetroMap() {
 
 			{/* Share Location Banner (if location is not yet available and not explicitly denied) */}
 			{!userLocation && !locationDenied && (
-				<div className="absolute top-4 left-1/2 -translate-x-1/2 w-[90%] max-w-sm z-[1000] pointer-events-none">
+				<div className="absolute top-4 left-1/2 -translate-x-1/2 w-[90%] max-w-sm z-1000 pointer-events-none">
 					<div className="pointer-events-auto bg-primary text-primary-foreground rounded-xl shadow-2xl p-4 text-center animate-in slide-in-from-top-4 fade-in">
 						<MapPin className="h-6 w-6 mx-auto mb-2 opacity-80" />
 						<p className="text-sm font-semibold mb-3">{t("shareLocationBanner")}</p>
@@ -493,7 +493,7 @@ export default function MetroMap() {
 
 			{/* Location Denied Message */}
 			{locationDenied && !userLocation && (
-				<div className="absolute bottom-4 left-3 right-3 sm:right-auto sm:w-[350px] z-[1000] pointer-events-none">
+				<div className="absolute bottom-4 left-3 right-3 sm:right-auto sm:w-[350px] z-1000 pointer-events-none">
 					<div className="pointer-events-auto bg-amber-50/90 backdrop-blur-xl rounded-xl border border-amber-200 shadow-lg p-3 text-center">
 						<p className="text-xs text-amber-700 font-semibold">{t("enableLocation")}</p>
 					</div>

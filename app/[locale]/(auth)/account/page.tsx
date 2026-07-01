@@ -5,7 +5,6 @@ import { Link } from '@/i18n/routing'
 import { ChevronLeft } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 
-type Params = Promise<{ locale: string }>
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 
 export default async function Page({

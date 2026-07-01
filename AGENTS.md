@@ -36,3 +36,6 @@ You are working in a Next.js App Router project (`dhaka-bus-fare`).
 
 ## TypeScript Rules
 - NEVER use the `any` type in this codebase under any circumstances. Use strict typing, Generics, `unknown`, or utility types like `Parameters<T>` instead.
+
+## Verification & QA
+- ALWAYS run `npm run lint` and type checking (e.g. `npx tsc --noEmit` or `npm run build`) after writing code or before concluding tasks. Do not skip this step.
