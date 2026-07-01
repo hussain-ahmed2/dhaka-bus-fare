@@ -100,7 +100,8 @@ export default function BusRouteMap({
 
 		fetchOSRM();
 		return () => { isMounted = false; };
-	}, [route.name.en, coords]); // Re-fetch only when route changes
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [route.name.en]); // Re-fetch only when route changes
 
 	// Helper to find closest point on curve
 	const getClosestIndex = (path: [number, number][], lat: number, lng: number) => {
