@@ -60,7 +60,7 @@
   "Calculator": {
     "metaTitle": "Bus Fare Calculator (Direct & Connecting Routes) - Dhaka Bus",
     "metaDescription": "Calculate bus fares between any two stops in Dhaka. Supports both direct routes and 1-transfer connecting route combinations to find the cheapest transit options.",
-    "metaKeywords": "Dhaka bus fare calculator, bus transfer Dhaka, connecting bus routes, Dhaka bus route finder, bus fare estimation Bangladesh, Dhaka public transit map",
+    "metaKeywords": "Dhaka bus fare calculator, bus transfer Dhaka, connecting bus routes, Dhaka bus route finder, bus fare estimation Bangladesh, Dhaka public transit map, bus vara calculator, dhaka bus vara, bus bhara dhaka",
     "badge": "Fare Calculator",
     "title": "Calculate Your Bus Fare",
     "subtitle": "Find direct routes between any two stops and get instant fare estimates.",
@@ -123,7 +123,7 @@
   "Chart": {
     "metaTitle": "Fare Chart - Dhaka Bus Fare & Routes",
     "metaDescription": "View the complete fare matrix for all stops on any Dhaka bus route. Compare fares between every combination of stops.",
-    "metaKeywords": "Dhaka bus fare chart, bus route matrix, stop to stop fare Dhaka, Dhaka bus routes, BRTA fare table, bus stop distance Bangladesh",
+    "metaKeywords": "Dhaka bus fare chart, bus route matrix, stop to stop fare Dhaka, Dhaka bus routes, BRTA fare table, bus stop distance Bangladesh, dhaka bus vara list, bus vara chart, bus bhara chart",
     "badge": "Fare Chart",
     "title": "Full Route Fare Chart",
     "subtitle": "View the complete fare matrix for all stops on a selected route.",
@@ -195,7 +195,7 @@
   "Buses": {
     "metaTitle": "Dhaka Bus Operators Directory - Dhaka Bus",
     "metaDescription": "Browse and search through 180+ real-world bus operators in Dhaka. Check operational timings, service types, and full stop lists.",
-    "metaKeywords": "Dhaka bus companies, bus operators Dhaka, Achim Paribahan route, Shikhor Paribahan, Dhaka city bus list, bus timing Dhaka",
+    "metaKeywords": "Dhaka bus companies, bus operators Dhaka, Achim Paribahan route, Shikhor Paribahan, Dhaka city bus list, bus timing Dhaka, local bus dhaka, dhaka bus vara",
     "badge": "Bus Directory",
     "title": "Dhaka Bus Operators",
     "subtitle": "Search and browse all city bus companies operating across the Dhaka Metro Area.",
@@ -219,7 +219,7 @@
   "Metro": {
     "metaTitle": "Dhaka Metro Rail - Live Map Simulation, Fare & Schedule",
     "metaDescription": "Track Dhaka Metro Rail MRT Line-6 trains in real-time on an interactive map simulation. Calculate fares, view schedules, and find your nearest station.",
-    "metaKeywords": "Dhaka metro rail, MRT Line 6, metro fare, metro schedule, live train map simulation, Dhaka metro stations, metro pass",
+    "metaKeywords": "Dhaka metro rail, MRT Line 6, metro fare, metro schedule, live train map simulation, Dhaka metro stations, metro pass, dhaka metro vara, metro rail vara, metro bhara, metro rail ticket price",
     "badge": "Metro Rail",
     "title": "Dhaka Metro Rail",
     "subtitle": "MRT Line-6 · Uttara North to Motijheel",
