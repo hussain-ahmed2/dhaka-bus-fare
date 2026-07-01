@@ -48,7 +48,7 @@ export default function RouteDetailPage({ params }: { params: Promise<{ slug: st
 			<div className="container mx-auto px-4 sm:px-6 py-10">
 				<div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
 					{/* Stop timeline – takes up wider left column */}
-					<div className="lg:col-span-3">
+					<div className="lg:col-span-3 space-y-8">
 						<StopTimeline route={route} onSelectRange={handleSelectRange} selectedRange={selectedRange} />
 						<RouteOperators operators={operators} locale={locale} />
 					</div>

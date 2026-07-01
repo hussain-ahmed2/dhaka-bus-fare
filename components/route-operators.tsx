@@ -34,7 +34,7 @@ export default function RouteOperators({ operators, locale }: RouteOperatorsProp
 				<Bus className="h-5 w-5 text-primary" />
 				{t("operatingBuses")}
 			</h3>
-			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+			<div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
 				{operators.map((operator) => (
 					<motion.div
 						key={operator.title.en}
@@ -59,7 +59,7 @@ function OperatorCard({ operator, locale }: { operator: BusOperator; locale: str
 	};
 
 	return (
-		<Card className="flex items-center gap-3.5 p-3.5 hover:shadow-md transition-shadow h-28">
+		<Card className="flex flex-row items-center gap-3.5 p-3.5 hover:shadow-md transition-shadow h-28">
 			{/* Image */}
 			<div className="relative w-20 h-20 rounded-xl bg-muted overflow-hidden flex-shrink-0 flex items-center justify-center border border-border">
 				{hasError ? (
